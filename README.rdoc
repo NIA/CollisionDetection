@@ -1,0 +1,7 @@
+= Collision Detection
+
+A homework for Softlab-NSK interview. Includes:
+
+* <b>Collisions:</b> Library implementing a function detecting collision between triangle and moving sphere.
+* <b>Google Test Framework</b>
+* <b>Tester</b>
