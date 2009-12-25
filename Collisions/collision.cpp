@@ -8,7 +8,6 @@ bool is_point_between(const Point &inner_point, const Point &outer_point1, const
              (outer_point2 - inner_point).sqared_norm() <= squared_length );
 }
 
-
 // Returns true, if there is a collision, false - if none.
 // Writes collision point into collison_point, if there is any.
 bool line_and_plane_collision(const Point &line_point, const Vector &line_vector,

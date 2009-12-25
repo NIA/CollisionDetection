@@ -28,7 +28,7 @@ TEST(LineAndPlaneTest, PerpendicularTrivial)
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
-    EXPECT_TRUE( A1 == result );
+    EXPECT_EQ( A1, result );
 }
 
 TEST(LineAndPlaneTest, PerpendicularSimple)
@@ -43,7 +43,7 @@ TEST(LineAndPlaneTest, PerpendicularSimple)
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
-    EXPECT_TRUE( A1 == result );
+    EXPECT_EQ( A1, result );
 }
 
 TEST(LineAndPlaneTest, Arbitrary)
@@ -58,7 +58,7 @@ TEST(LineAndPlaneTest, Arbitrary)
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
-    EXPECT_TRUE( A1 == result );
+    EXPECT_EQ( A1, result );
 }
 
 // Point between tests
@@ -103,11 +103,11 @@ TEST(SegmentAndPlaneTest, PerpendicularTrivial)
     Point result;
 
     EXPECT_TRUE(  segment_and_plane_collision( A, B, P0, N, result ) );
-    EXPECT_TRUE(  B == result );
+    EXPECT_EQ( B, result );
     EXPECT_TRUE(  segment_and_plane_collision( A, C, P0, N, result ) );
-    EXPECT_TRUE(  B == result );
+    EXPECT_EQ( B, result );
     EXPECT_TRUE(  segment_and_plane_collision( B, C, P0, N, result ) );
-    EXPECT_TRUE(  B == result );
+    EXPECT_EQ( B, result );
     EXPECT_FALSE( segment_and_plane_collision( C, D, P0, N, result ) );
 }
 
@@ -124,10 +124,10 @@ TEST(SegmentAndPlaneTest, Arbitrary)
     Point result;
 
     EXPECT_TRUE( segment_and_plane_collision( A, B, P0, N, result ) );
-    EXPECT_TRUE( B == result );
+    EXPECT_EQ( B, result );
     EXPECT_TRUE( segment_and_plane_collision( B, C, P0, N, result ) );
-    EXPECT_TRUE( B == result );
+    EXPECT_EQ( B, result );
     EXPECT_TRUE( segment_and_plane_collision( A, D, P0, N, result ) );
-    EXPECT_TRUE( B == result );
+    EXPECT_EQ( B, result );
     EXPECT_FALSE( segment_and_plane_collision( C, D, P0, N, result ) );
 }

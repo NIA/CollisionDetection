@@ -4,17 +4,17 @@
 TEST(PointTest, DefaultConstruct)
 {
     Point p;
-    EXPECT_EQ( p.x, 0 );
-    EXPECT_EQ( p.y, 0 );
-    EXPECT_EQ( p.z, 0 );
+    EXPECT_EQ( 0, p.x );
+    EXPECT_EQ( 0, p.y );
+    EXPECT_EQ( 0, p.z );
 }
 
 TEST(PointTest, Construct)
 {
     Point p( 2, 3, 4.8 );
-    EXPECT_EQ( p.x, 2.0 );
-    EXPECT_EQ( p.y, 3.0 );
-    EXPECT_EQ( p.z, 4.8 );
+    EXPECT_EQ( 2.0, p.x );
+    EXPECT_EQ( 3.0, p.y );
+    EXPECT_EQ( 4.8, p.z );
 }
 
 TEST(PointTest, CopyConstruct)
@@ -22,8 +22,8 @@ TEST(PointTest, CopyConstruct)
     Point p( 2, 3, 4.8 );
     Point p1( p );
     Point p2 = p;
-    EXPECT_TRUE( p == p1 );
-    EXPECT_TRUE( p == p2 );
+    EXPECT_EQ( p, p1 );
+    EXPECT_EQ( p, p2 );
 }
 
 TEST(PointTest, Equal)
@@ -49,14 +49,14 @@ TEST(PointTest, NotEqual)
 TEST(PointTest, UnaryPlus)
 {
     Point p( 2, 3, 4.8 );
-    EXPECT_TRUE( +p == p ); // TODO: To use EXPECT_EQ the class should define operator << for std::ostream
+    EXPECT_EQ( p, +p );
 }
 
 TEST(PointTest, UnaryMinus)
 {
     Point p( 2, 3, 4.8 );
     Point p1( -2, -3, -4.8 );
-    EXPECT_TRUE( -p == p1 );
+    EXPECT_EQ( p1, -p );
 }
 
 TEST(PointTest, AddAssign)
@@ -64,9 +64,9 @@ TEST(PointTest, AddAssign)
     Point p1( 2, 3, 4.8 );
     Point p2( 1, -8, 1.1 );
     Point p3( p1.x + p2.x, p1.y + p2.y, p1.z + p2.z );
-    EXPECT_EQ( &(p1 += p2), &p1 ); // It actually returns first argument
+    EXPECT_EQ( &p1, &(p1 += p2) ); // It actually returns first argument
 
-    EXPECT_TRUE( p1 == p3 );
+    EXPECT_EQ( p3, p1 );
 }
 
 TEST(PointTest, SubAssign)
@@ -74,9 +74,9 @@ TEST(PointTest, SubAssign)
     Point p1( 2, 3, 4.8 );
     Point p2( 1, -8, 1.1 );
     Point p3( p1.x - p2.x, p1.y - p2.y, p1.z - p2.z );
-    EXPECT_EQ( &(p1 -= p2), &p1 ); // It actually returns first argument
+    EXPECT_EQ( &p1, &(p1 -= p2) ); // It actually returns first argument
 
-    EXPECT_TRUE( p1 == p3 );
+    EXPECT_EQ( p3, p1 );
 }
 
 TEST(PointTest, Add)
@@ -85,7 +85,7 @@ TEST(PointTest, Add)
     Point p2( 1, -8, 1.1 );
     Point p3( p1.x + p2.x, p1.y + p2.y, p1.z + p2.z );
 
-    EXPECT_TRUE( p1 + p2 == p3 );
+    EXPECT_EQ( p3, p1 + p2 );
 }
 
 TEST(PointTest, Subtract)
@@ -94,7 +94,7 @@ TEST(PointTest, Subtract)
     Point p2( 1, -8, 1.1 );
     Point p3( p1.x - p2.x, p1.y - p2.y, p1.z - p2.z );
 
-    EXPECT_TRUE( p1 - p2 == p3 );
+    EXPECT_EQ( p3, p1 - p2 );
 }
 
 TEST(PointTest, MulAssign)
@@ -102,9 +102,9 @@ TEST(PointTest, MulAssign)
     Point p1( 2, 3, 4.8 );
     double d = 2.3;
     Point p3( p1.x*d, p1.y*d, p1.z*d );
-    EXPECT_EQ( &(p1 *= d), &p1 ); // It actually returns first argument
+    EXPECT_EQ( &p1, &(p1 *= d) ); // It actually returns first argument
 
-    EXPECT_TRUE( p1 == p3 );
+    EXPECT_EQ( p3, p1 );
 }
 
 TEST(PointTest, DivAssign)
@@ -112,9 +112,9 @@ TEST(PointTest, DivAssign)
     Point p1( 2, 3, 4.8 );
     double d = 2.3;
     Point p3( p1.x/d, p1.y/d, p1.z/d );
-    EXPECT_EQ( &(p1 /= d), &p1 ); // It actually returns first argument
+    EXPECT_EQ( &p1, &(p1 /= d) ); // It actually returns first argument
 
-    EXPECT_TRUE( p1 == p3 );
+    EXPECT_EQ( p3, p1 );
 }
 
 TEST(PointTest, Multiply)
@@ -123,7 +123,7 @@ TEST(PointTest, Multiply)
     double d = 2.3;
     Point p3( p1.x*d, p1.y*d, p1.z*d );
 
-    EXPECT_TRUE( p1*d == p3 );
+    EXPECT_EQ( p3, p1*d );
 }
 
 TEST(PointTest, Divide)
@@ -133,7 +133,7 @@ TEST(PointTest, Divide)
     double d = 2.3;
     Point p3( p1.x/d, p1.y/d, p1.z/d );
 
-    EXPECT_TRUE( p1/d == p3 );
+    EXPECT_EQ( p3, p1/d );
 }
 
 TEST(PointTest, ScalarMultiply)

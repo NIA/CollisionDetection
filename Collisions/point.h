@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 class Point
 {
@@ -96,3 +97,9 @@ public:
 };
 
 typedef Point Vector;
+
+// more operators
+inline std::ostream &operator<<(std::ostream &stream, Point const &point)
+{
+    return stream << "(" << point.x << ", " << point.y << ", " << point.z << ")";
+}
