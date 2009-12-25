@@ -50,6 +50,7 @@ public:
     }
 
     // binary operators
+    // TODO: double * Point operator
     Point operator+(const Point &another) const
     {
         Point result = *this;
@@ -80,13 +81,15 @@ public:
     {
         return !( *this == another );
     }
+    
     // scalar multiplication
     double operator*(const Point &another) const
     {
         return x*another.x + y*another.y + z*another.z;
     }
+    
     // methods
-    double sqared_norm()
+    double sqared_norm() const
     {
         return (*this)*(*this);
     }

@@ -1,8 +1,18 @@
 #include "collisions.h"
 
-// returns true, if there is a collision, false - if none.
-bool line_and_plane_collision(Point line_point, Vector line_vector,
-                              Point plane_point, Vector plane_normal,
+// Returns true, if first point is between second and third
+bool is_point_between(const Point &inner_point, const Point &outer_point1, const Point &outer_point2)
+{
+    double squared_length = (outer_point2 - outer_point1).sqared_norm();
+    return ( (inner_point - outer_point1).sqared_norm() <= squared_length &&
+             (outer_point2 - inner_point).sqared_norm() <= squared_length );
+}
+
+
+// Returns true, if there is a collision, false - if none.
+// Writes collision point into collison_point, if there is any.
+bool line_and_plane_collision(const Point &line_point, const Vector &line_vector,
+                              const Point &plane_point, const Vector &plane_normal,
                               /*out*/ Point &collision_point)
 {
     double denominator = line_vector * plane_normal;
@@ -18,15 +28,10 @@ bool line_and_plane_collision(Point line_point, Vector line_vector,
     }
 }
 
-bool is_point_between(Point inner_point, Point outer_point1, Point outer_point2)
-{
-    double squared_length = (outer_point2 - outer_point1).sqared_norm();
-    return ( (inner_point - outer_point1).sqared_norm() <= squared_length &&
-             (outer_point2 - inner_point).sqared_norm() <= squared_length );
-}
-
-bool segment_and_plane_collision(Point segment_start, Point segment_end,
-                                 Point plane_point, Vector plane_normal,
+// Returns true, if there is a collision, false - if none.
+// Writes collision point into collison_point, if there is any.
+bool segment_and_plane_collision(const Point &segment_start, const Point &segment_end,
+                                 const Point &plane_point, const Vector &plane_normal,
                                  /*out*/ Point &collision_point)
 {
     Point point;
