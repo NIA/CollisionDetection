@@ -50,23 +50,23 @@ public:
     }
 
     // binary operators
-    Point operator+(const Point &another)
+    Point operator+(const Point &another) const
     {
         Point result = *this;
         return result += another;
     }
-    Point operator-(const Point &another)
+    Point operator-(const Point &another) const
     {
         Point result = *this;
         return result -= another;
     }
 
-    Point operator*(const double &scalar)
+    Point operator*(const double &scalar) const
     {
         Point result = *this;
         return result *= scalar;
     }
-    Point operator/(const double &scalar)
+    Point operator/(const double &scalar) const
     {
         Point result = *this;
         return result /= scalar;
@@ -74,11 +74,16 @@ public:
 
     bool operator==(const Point &another) const
     {
-        return (x == another.x) && (y == another.y) && (z == another.z);
+        return (x == another.x) && (y == another.y) && (z == another.z);  // TODO: normal floating-point comparison
     }
     bool operator!=(const Point &another) const
     {
         return !( *this == another );
+    }
+    // scalar multiplication
+    double operator*(const Point &another) const
+    {
+        return x*another.x + y*another.y + z*another.z;
     }
 };
 

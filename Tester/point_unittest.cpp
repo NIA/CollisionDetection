@@ -134,3 +134,13 @@ TEST(PointTest, Divide)
 
     EXPECT_TRUE( p1/d == p3 );
 }
+
+TEST(PointTest, ScalarMultiply)
+{
+    double a = 2, b = 3, c = 4.8;
+    double d = 1, e = 0, f = -4.1;
+    Point p1(a, b, c);
+    Point p2(d, e, f);
+
+    EXPECT_DOUBLE_EQ( a*d + b*e + c*f, p1*p2 );
+}
