@@ -73,6 +73,9 @@ TEST(IsPointBetweenTest, OnSingleLine)
     EXPECT_TRUE(  is_point_between(p2, p1, p3) );
     EXPECT_FALSE( is_point_between(p1, p2, p3) );
     EXPECT_FALSE( is_point_between(p3, p2, p1) );
+    
+    EXPECT_TRUE(  is_point_between(p1, p1, p2) );
+    EXPECT_TRUE(  is_point_between(p2, p1, p2) );
 }
 
 // Segment and plane tests
