@@ -162,6 +162,10 @@
 				RelativePath=".\collisions.h"
 				>
 			</File>
+			<File
+				RelativePath=".\point.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

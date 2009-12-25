@@ -173,10 +173,18 @@
 	<References>
 	</References>
 	<Files>
-		<File
-			RelativePath=".\collisions_unittest.cpp"
+		<Filter
+			Name="Test Source Files"
 			>
-		</File>
+			<File
+				RelativePath=".\collisions_unittest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\point_unittest.cpp"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\Google Test Framework\src\gtest_main.cc"
 			>
