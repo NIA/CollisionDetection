@@ -128,6 +128,7 @@ TEST(PointTest, Multiply)
 
 TEST(PointTest, Divide)
 {
+    // TODO: Expect throw when / 0
     Point p1( 2, 3, 4.8 );
     double d = 2.3;
     Point p3( p1.x/d, p1.y/d, p1.z/d );
@@ -143,4 +144,13 @@ TEST(PointTest, ScalarMultiply)
     Point p2(d, e, f);
 
     EXPECT_DOUBLE_EQ( a*d + b*e + c*f, p1*p2 );
+}
+
+TEST(PointTest, SqaredNorm)
+{
+    Point p1(1, 2, 3);
+    Point p2(1, -1, 0);
+
+    EXPECT_DOUBLE_EQ( 14, p1.sqared_norm() );
+    EXPECT_DOUBLE_EQ(  2, p2.sqared_norm() );
 }

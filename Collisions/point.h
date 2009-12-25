@@ -85,6 +85,11 @@ public:
     {
         return x*another.x + y*another.y + z*another.z;
     }
+    // methods
+    double sqared_norm()
+    {
+        return (*this)*(*this);
+    }
 };
 
 typedef Point Vector;
