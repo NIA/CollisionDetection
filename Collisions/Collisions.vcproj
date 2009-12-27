@@ -108,7 +108,7 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -160,6 +160,10 @@
 			>
 			<File
 				RelativePath=".\collisions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\floating_point.h"
 				>
 			</File>
 			<File

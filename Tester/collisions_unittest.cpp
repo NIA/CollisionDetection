@@ -1,6 +1,8 @@
 #include "../Collisions/collisions.h"
 #include <gtest/gtest.h>
 
+using namespace Collisions;
+
 // Line and plane tests
 
 TEST(LineAndPlaneTest, Parallel)

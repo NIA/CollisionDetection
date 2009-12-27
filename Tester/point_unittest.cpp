@@ -1,6 +1,8 @@
 #include "../Collisions/point.h"
 #include <gtest/gtest.h>
 
+using namespace Collisions;
+
 TEST(PointTest, DefaultConstruct)
 {
     Point p;
