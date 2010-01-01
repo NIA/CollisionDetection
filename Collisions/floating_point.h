@@ -3,7 +3,7 @@
 
 namespace Collisions
 {
-    const __int64 DEFAULT_MAX_ULPS = 4;
+    const __int64 DEFAULT_MAX_ULPS = 10;
 
     // Helpers for 'proper' comparing floats: assuming equal those, whose
     // difference is DEFAULT_MAX_ULPS Units in the Last Place

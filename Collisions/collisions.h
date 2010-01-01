@@ -22,4 +22,10 @@ namespace Collisions
     bool segment_and_plane_collision(const Point &segment_start, const Point &segment_end,
                                      const Point &plane_point, const Vector &plane_normal,
                                      /*out*/ Point &collision_point);
+
+    // Returns number of collision points (0, 1 or 2).
+    // Writes collision point into collison_point1 and collison_point2, if there is any.
+    unsigned sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                        const Point &plane_point, const Vector &plane_normal,
+                                        /*out*/ Point &collision_point1, Point &collision_point2);
 };

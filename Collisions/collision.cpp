@@ -48,4 +48,34 @@ namespace Collisions
         }
         return result;
     }
+
+    // Returns number of collision points (0, 1 or 2).
+    // Writes collision point into collison_point1 and collison_point2, if there is any.    
+    unsigned sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                        const Point &plane_point, const Vector &plane_normal,
+                                        /*out*/ Point &collision_point1, Point &collision_point2)
+    {
+        Point point1, point2;
+        bool result1 = segment_and_plane_collision(segment_start - plane_normal*sphere_radius,
+                                                   segment_end   - plane_normal*sphere_radius,
+                                                   plane_point, plane_normal, point1); // upper collision
+        bool result2 = segment_and_plane_collision(segment_start + plane_normal*sphere_radius,
+                                                   segment_end   + plane_normal*sphere_radius,
+                                                   plane_point, plane_normal, point2); // lower collision
+        unsigned count = 0;
+        if( result1 )
+        {
+            collision_point1 = point1;
+            ++count;
+        }
+        if( result2 )
+        {
+            if( result1 )
+                collision_point2 = point2;
+            else
+                collision_point1 = point2;
+            ++count;
+        }
+        return count;
+    }
 };
