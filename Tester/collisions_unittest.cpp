@@ -157,36 +157,38 @@ TEST(SphereAndPlaneTest, Parallel)
 
 TEST(SphereAndPlaneTest, PerpendicularTrivial)
 {
-    Point A(1, 1, 1);     // upper than plane
-    Point AA(1, 1, 0.5);  // sphere is touching the plane, upper
-    Point B(1, 1, 0);     // on the plane
-    Point CC(1, 1, -0.5); // sphere is touching the plane, lower
-    Point C(1, 1, -1);    // lower
-    Point D(1, 1, -2);    // lower
+    double R = 0.25;
+
+    Point A(1, 1, 1);   // upper than plane
+    Point AA(1, 1, R);  // sphere is touching the plane, upper
+    Point B(1, 1, 0);   // on the plane
+    Point CC(1, 1, -R); // sphere is touching the plane, lower
+    Point C(1, 1, -1);  // lower
+    Point D(1, 1, -2);  // lower
 
     Point P0(0, 0, 0);
     Vector N(0, 0, 1);
 
     Point result;
 
-    EXPECT_FALSE( sphere_and_plane_collision( C, D, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( C, D, R, P0, N, result ) );
 
-    EXPECT_TRUE( sphere_and_plane_collision( A, AA, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, AA, R, P0, N, result ) );
     EXPECT_EQ( B, result );
-    EXPECT_FALSE( sphere_and_plane_collision( AA, A, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( AA, A, R, P0, N, result ) );
 
-    EXPECT_TRUE( sphere_and_plane_collision( A, B, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, B, R, P0, N, result ) );
     EXPECT_EQ( B, result );
-    EXPECT_FALSE( sphere_and_plane_collision( B, A, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( B, A, R, P0, N, result ) );
 
-    EXPECT_TRUE( sphere_and_plane_collision( A, CC, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, CC, R, P0, N, result ) );
     EXPECT_EQ( B, result );
-    EXPECT_TRUE( sphere_and_plane_collision( CC, A, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( CC, A, R, P0, N, result ) );
     EXPECT_EQ( B, result );
 
-    EXPECT_TRUE( sphere_and_plane_collision( D, A, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( D, A, R, P0, N, result ) );
     EXPECT_EQ( B, result );
-    EXPECT_TRUE( sphere_and_plane_collision( A, D, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, D, R, P0, N, result ) );
     EXPECT_EQ( B, result );
 }
 
@@ -203,32 +205,33 @@ TEST(SphereAndPlaneTest, Arbitrary)
 
     N = N/sqrt( N.sqared_norm() ); // TODO: norm() and normalize() (and normalized() too!) methods;
 
-    double t = ( 0.5 - (B - P0)*N )/( L*N );
+    double R = 0.1;
+    double t = ( R - (B - P0)*N )/( L*N );
     Point AA(1 - t, t, -2*t);  // touching the plane, lower
     Point CC(1 + t, -t,  2*t); // touching the plane, upper
 
-    Point T1 = AA + N*0.5; // lower touch point
-    Point T2 = CC - N*0.5; // upper touch point
+    Point T1 = AA + N*R; // lower touch point
+    Point T2 = CC - N*R; // upper touch point
 
     Point result;
 
-    EXPECT_FALSE( sphere_and_plane_collision( C, D, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( C, D, R, P0, N, result ) );
     
-    EXPECT_TRUE( sphere_and_plane_collision( A, AA, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, AA, R, P0, N, result ) );
     EXPECT_EQ( T1, result );
-    EXPECT_FALSE( sphere_and_plane_collision( AA, A, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( AA, A, R, P0, N, result ) );
     
-    EXPECT_TRUE( sphere_and_plane_collision( A, B, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, B, R, P0, N, result ) );
     EXPECT_EQ( T1, result );
-    EXPECT_FALSE( sphere_and_plane_collision( B, A, 0.5, P0, N, result ) );
+    EXPECT_FALSE( sphere_and_plane_collision( B, A, R, P0, N, result ) );
 
-    EXPECT_TRUE( sphere_and_plane_collision( A, CC, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, CC, R, P0, N, result ) );
     EXPECT_EQ( T1, result );
-    EXPECT_TRUE( sphere_and_plane_collision( CC, A, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( CC, A, R, P0, N, result ) );
     EXPECT_EQ( T2, result );
 
-    EXPECT_TRUE( sphere_and_plane_collision( A, D, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( A, D, R, P0, N, result ) );
     EXPECT_EQ( T1, result );
-    EXPECT_TRUE( sphere_and_plane_collision( D, A, 0.5, P0, N, result ) );
+    EXPECT_TRUE( sphere_and_plane_collision( D, A, R, P0, N, result ) );
     EXPECT_EQ( T2, result );
 }

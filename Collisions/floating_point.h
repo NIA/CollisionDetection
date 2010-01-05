@@ -3,12 +3,15 @@
 
 namespace Collisions
 {
-    const __int64 DEFAULT_MAX_ULPS = 10;
+    const __int64 DEFAULT_MAX_ULPS = 50;
 
     // Helpers for 'proper' comparing floats: assuming equal those, whose
-    // difference is DEFAULT_MAX_ULPS Units in the Last Place
+    // difference is less than DEFAULT_MAX_ULPS Units in the Last Place
 
     // TODO: tests for these functions
+    // TODO: user-defined accuracy
+    // TODO: re-write using unions
+    // TODO: epsilon-comparison near zero
 
     //
     // the idea from
