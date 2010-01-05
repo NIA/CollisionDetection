@@ -28,7 +28,7 @@ namespace Collisions
         else
         {
             double t = (plane_point - line_point)*plane_normal/denominator;
-            collision_point = line_point + line_vector*t;
+            collision_point = line_point + t*line_vector;
             return true;
         }
     }
@@ -60,15 +60,17 @@ namespace Collisions
         bool result;
         if( line_vector * plane_normal > 0 )
         {
-            result = segment_and_plane_collision(segment_start + plane_normal*sphere_radius,
-                                                 segment_end   + plane_normal*sphere_radius,
-                                                 plane_point, plane_normal, point); // lower collision
+            // lower collision
+            result = segment_and_plane_collision(segment_start + sphere_radius*plane_normal,
+                                                 segment_end   + sphere_radius*plane_normal,
+                                                 plane_point, plane_normal, point);
         }
         else
         {
-            result = segment_and_plane_collision(segment_start - plane_normal*sphere_radius,
-                                                 segment_end   - plane_normal*sphere_radius,
-                                                 plane_point, plane_normal, point); // upper collision
+            // upper collision
+            result = segment_and_plane_collision(segment_start - sphere_radius*plane_normal,
+                                                 segment_end   - sphere_radius*plane_normal,
+                                                 plane_point, plane_normal, point);
         }
         if( result )
         {

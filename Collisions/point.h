@@ -55,7 +55,6 @@ namespace Collisions
         }
 
         // binary operators
-        // TODO: double * Point operator
         Point operator+(const Point &another) const
         {
             Point result = *this;
@@ -120,7 +119,11 @@ namespace Collisions
     typedef Point Vector;
 
     // more operators
-    inline std::ostream &operator<<(std::ostream &stream, Point const &point)
+    inline Point operator*(const double &scalar, const Point &point)
+    {
+        return point * scalar;
+    }
+    inline std::ostream &operator<<(std::ostream &stream, const Point &point)
     {
         return stream << "(" << point.x << ", " << point.y << ", " << point.z << ")";
     }

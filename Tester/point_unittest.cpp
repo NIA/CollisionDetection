@@ -126,6 +126,7 @@ TEST(PointTest, Multiply)
     Point p3( p1.x*d, p1.y*d, p1.z*d );
 
     EXPECT_EQ( p3, p1*d );
+    EXPECT_EQ( p3, d*p1 );
 }
 
 TEST(PointTest, Divide)

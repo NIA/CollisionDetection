@@ -209,8 +209,8 @@ TEST(SphereAndPlaneTest, Arbitrary)
     Point AA(1 - t, t, -2*t);  // touching the plane, lower
     Point CC(1 + t, -t,  2*t); // touching the plane, upper
 
-    Point T1 = AA + N*R; // lower touch point
-    Point T2 = CC - N*R; // upper touch point
+    Point T1 = AA + R*N; // lower touch point
+    Point T2 = CC - R*N; // upper touch point
 
     Point result;
 
