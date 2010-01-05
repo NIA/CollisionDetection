@@ -2,6 +2,8 @@
 
 namespace Collisions
 {
+    // -------------------------- H e l p e r s ------------------------------------------
+
     // Returns true, if first point is between second and third
     bool is_point_between(const Point &inner_point, const Point &outer_point1, const Point &outer_point2)
     {
@@ -10,8 +12,10 @@ namespace Collisions
                  less_or_equal( (outer_point2 - inner_point).sqared_norm(), squared_length ) );
     }
 
-    // Returns true, if there is a collision, false - if none.
-    // Writes collision point into collison_point, if there is any.
+    // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
+    // All functions return true, if there is a collision, false - if none;
+    // and write collision point into `collison_point', if there is any.
+
     bool line_and_plane_collision(const Point &line_point, const Vector &line_vector,
                                   const Point &plane_point, const Vector &plane_normal,
                                   /*out*/ Point &collision_point)
@@ -29,8 +33,6 @@ namespace Collisions
         }
     }
 
-    // Returns true, if there is a collision, false - if none.
-    // Writes collision point into collison_point, if there is any.
     bool segment_and_plane_collision(const Point &segment_start, const Point &segment_end,
                                      const Point &plane_point, const Vector &plane_normal,
                                      /*out*/ Point &collision_point)
@@ -49,33 +51,29 @@ namespace Collisions
         return result;
     }
 
-    // Returns number of collision points (0, 1 or 2).
-    // Writes collision point into collison_point1 and collison_point2, if there is any.    
-    unsigned sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
-                                        const Point &plane_point, const Vector &plane_normal,
-                                        /*out*/ Point &collision_point1, Point &collision_point2)
+    bool sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                    const Point &plane_point, const Vector &plane_normal,
+                                    /*out*/ Point &collision_point)
     {
-        Point point1, point2;
-        bool result1 = segment_and_plane_collision(segment_start - plane_normal*sphere_radius,
-                                                   segment_end   - plane_normal*sphere_radius,
-                                                   plane_point, plane_normal, point1); // upper collision
-        bool result2 = segment_and_plane_collision(segment_start + plane_normal*sphere_radius,
-                                                   segment_end   + plane_normal*sphere_radius,
-                                                   plane_point, plane_normal, point2); // lower collision
-        unsigned count = 0;
-        if( result1 )
+        Vector line_vector = segment_end - segment_start;
+        Point point;
+        bool result;
+        if( line_vector * plane_normal > 0 )
         {
-            collision_point1 = point1;
-            ++count;
+            result = segment_and_plane_collision(segment_start + plane_normal*sphere_radius,
+                                                 segment_end   + plane_normal*sphere_radius,
+                                                 plane_point, plane_normal, point); // lower collision
         }
-        if( result2 )
+        else
         {
-            if( result1 )
-                collision_point2 = point2;
-            else
-                collision_point1 = point2;
-            ++count;
+            result = segment_and_plane_collision(segment_start - plane_normal*sphere_radius,
+                                                 segment_end   - plane_normal*sphere_radius,
+                                                 plane_point, plane_normal, point); // upper collision
         }
-        return count;
+        if( result )
+        {
+            collision_point = point;
+        }
+        return result;
     }
 };

@@ -10,22 +10,18 @@ namespace Collisions
     bool is_point_between(const Point &inner_point, const Point &outer_point1, const Point &outer_point2);
 
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
+    // All functions return true, if there is a collision, false - if none;
+    // and write collision point into `collison_point', if there is any.
 
-    // Returns true, if there is a collision, false - if none.
-    // Writes collision point into collison_point, if there is any.
     bool line_and_plane_collision(const Point &line_point, const Vector &line_vector,
                                   const Point &plane_point, const Vector &plane_normal,
                                   /*out*/ Point &collision_point);
 
-    // Returns true, if there is a collision, false - if none.
-    // Writes collision point into collison_point, if there is any.
     bool segment_and_plane_collision(const Point &segment_start, const Point &segment_end,
                                      const Point &plane_point, const Vector &plane_normal,
                                      /*out*/ Point &collision_point);
 
-    // Returns number of collision points (0, 1 or 2).
-    // Writes collision point into collison_point1 and collison_point2, if there is any.
-    unsigned sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
-                                        const Point &plane_point, const Vector &plane_normal,
-                                        /*out*/ Point &collision_point1, Point &collision_point2);
+    bool sphere_and_plane_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                    const Point &plane_point, const Vector &plane_normal,
+                                    /*out*/ Point &collision_point);
 };
