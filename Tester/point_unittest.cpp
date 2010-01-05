@@ -156,3 +156,29 @@ TEST(PointTest, SqaredNorm)
     EXPECT_DOUBLE_EQ( 14, p1.sqared_norm() );
     EXPECT_DOUBLE_EQ(  2, p2.sqared_norm() );
 }
+
+TEST(PointTest, Norm)
+{
+    Point p(3, -4, 0);
+    EXPECT_DOUBLE_EQ( 5, p.norm() );
+}
+
+TEST(PointTest, Normalize)
+{
+    Point p(3, -4, 0);
+    Point p1(3.0/5, -4.0/5, 0);
+    EXPECT_EQ( &p, &( p.normalize() ) ); // It actually returns point itself
+    EXPECT_EQ( p1, p );
+
+    Point zero1(0, 0, 0);
+    Point zero2(0, 0, 0);
+    zero1.normalize();
+    EXPECT_EQ( zero2, zero1 );
+}
+
+TEST(PointTest, Normalized)
+{
+    Point p(3, -4, 0);
+    Point p1(3.0/5, -4.0/5, 0);
+    EXPECT_EQ( p1, p.normalized() );
+}

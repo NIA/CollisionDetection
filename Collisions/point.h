@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 #include "floating_point.h"
 
 namespace Collisions
@@ -97,6 +98,23 @@ namespace Collisions
         {
             return (*this)*(*this);
         }
+        double norm() const
+        {
+            return sqrt( sqared_norm() );
+        }
+        Point & normalize() // normalizes given point/vector in place (!), returns itself
+        {
+            if( norm() != 0 )
+            {
+                (*this) /= norm();
+            }
+            return *this;
+        }
+        Point normalized() const  // returns normalized point/vector
+        {
+            Point result = *this;
+            return result.normalize();
+        }            
     };
 
     typedef Point Vector;

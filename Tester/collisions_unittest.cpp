@@ -1,6 +1,5 @@
 #include "../Collisions/collisions.h"
 #include <gtest/gtest.h>
-#include <cmath>
 
 using namespace Collisions;
 
@@ -203,7 +202,7 @@ TEST(SphereAndPlaneTest, Arbitrary)
     Point P0(0, 1, 0); // simplex
     Vector N(1, 1, 1);
 
-    N = N/sqrt( N.sqared_norm() ); // TODO: norm() and normalize() (and normalized() too!) methods;
+    N.normalize();
 
     double R = 0.1;
     double t = ( R - (B - P0)*N )/( L*N );
