@@ -130,7 +130,6 @@ TEST(PointTest, Multiply)
 
 TEST(PointTest, Divide)
 {
-    // TODO: Expect throw when / 0
     Point p1( 2, 3, 4.8 );
     double d = 2.3;
     Point p3( p1.x/d, p1.y/d, p1.z/d );
@@ -169,7 +168,8 @@ TEST(PointTest, Normalize)
     Point p1(3.0/5, -4.0/5, 0);
     EXPECT_EQ( &p, &( p.normalize() ) ); // It actually returns point itself
     EXPECT_EQ( p1, p );
-
+    
+    // Test normalizing when norm is 0
     Point zero1(0, 0, 0);
     Point zero2(0, 0, 0);
     zero1.normalize();
