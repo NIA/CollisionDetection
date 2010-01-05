@@ -116,7 +116,7 @@ namespace Collisions
         }            
     };
 
-    typedef Point Vector;
+    typedef Point Vector; // define an alias
 
     // more operators
     inline Point operator*(const double &scalar, const Point &point)
@@ -126,5 +126,11 @@ namespace Collisions
     inline std::ostream &operator<<(std::ostream &stream, const Point &point)
     {
         return stream << "(" << point.x << ", " << point.y << ", " << point.z << ")";
+    }
+
+    // functions
+    inline double distance(const Point &A, const Point &B)
+    {
+        return (A - B).norm();
     }
 };

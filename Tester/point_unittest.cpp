@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 using namespace Collisions;
+// TODO: make test variables constants
 
 TEST(PointTest, DefaultConstruct)
 {
@@ -182,4 +183,11 @@ TEST(PointTest, Normalized)
     Point p(3, -4, 0);
     Point p1(3.0/5, -4.0/5, 0);
     EXPECT_EQ( p1, p.normalized() );
+}
+
+TEST(PointTest, Distance)
+{
+    Point p1(1, 2, -3);
+    Point p2(4, -2, -3);
+    EXPECT_DOUBLE_EQ( 5, distance(p1, p2) );
 }

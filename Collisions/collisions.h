@@ -9,6 +9,8 @@ namespace Collisions
     // Returns true, if first point is between second and third
     bool is_point_between(const Point &inner_point, const Point &outer_point1, const Point &outer_point2);
 
+    double distance_between_point_and_line(const Point &point, const Point &line_point, const Vector &line_vector);
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

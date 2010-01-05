@@ -12,6 +12,14 @@ namespace Collisions
                  less_or_equal( (outer_point2 - inner_point).sqared_norm(), squared_length ) );
     }
 
+    double distance_between_point_and_line(const Point &point, const Point &line_point, const Vector &line_vector)
+    {
+        assert( line_vector.sqared_norm() != 0 ); // line_vector must not be (0, 0, 0);
+        double t = line_vector*( point - line_point) / line_vector.sqared_norm();
+        Point perpendicular_base = line_point + t*line_vector;
+        return distance(point, perpendicular_base);
+    }
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.
