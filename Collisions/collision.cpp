@@ -12,11 +12,13 @@ namespace Collisions
                  less_or_equal( (outer_point2 - inner_point).sqared_norm(), squared_length ) );
     }
 
-    double distance_between_point_and_line(const Point &point, const Point &line_point, const Vector &line_vector)
+    double distance_between_point_and_line(const Point &point, const Point &line_point, const Vector &line_vector,
+                                           /*out*/ Point &nearest_point )
     {
         assert( line_vector.sqared_norm() != 0 ); // line_vector must not be (0, 0, 0);
         double t = line_vector*( point - line_point) / line_vector.sqared_norm();
         Point perpendicular_base = line_point + t*line_vector;
+        nearest_point = perpendicular_base;
         return distance(point, perpendicular_base);
     }
 

@@ -29,7 +29,12 @@ TEST(DistancePointAndLineTest, Trivial)
     Point A(0, 0, 1.1);
     Vector L(0, 0, 11); // z axis
 
-    EXPECT_DOUBLE_EQ( 2.5, distance_between_point_and_line( P, A, L ) );
+    Point H(0, 0, 0); // nearest point
+
+    Point nearest;
+
+    EXPECT_DOUBLE_EQ( 2.5, distance_between_point_and_line( P, A, L, nearest ) );
+    EXPECT_EQ( H, nearest );
 }
 
 TEST(DistancePointAndLineTest, Arbitrary)
@@ -39,7 +44,12 @@ TEST(DistancePointAndLineTest, Arbitrary)
     Point A(0, 0, 1);
     Vector L(0.5, 0.5, -1); // on simplex
 
-    EXPECT_DOUBLE_EQ( 1.0/sqrt(3.0), distance_between_point_and_line( P, A, L ) );
+    Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
+
+    Point nearest;
+
+    EXPECT_DOUBLE_EQ( 1.0/sqrt(3.0), distance_between_point_and_line( P, A, L, nearest ) );
+    EXPECT_EQ( H, nearest );
 }
 
 // Line and plane tests
