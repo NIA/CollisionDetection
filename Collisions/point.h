@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <cmath>
+#include "errors.h"
 #include "floating_point.h"
 
 namespace Collisions
@@ -132,5 +133,16 @@ namespace Collisions
     inline double distance(const Point &A, const Point &B)
     {
         return (A - B).norm();
+    }
+
+    // error checking functions
+    template <class ErrType> inline void check_nonzero_vector( const Vector &vector, const ErrType &error )
+    {
+        static const Vector ZERO( 0, 0, 0 );
+        check( vector != ZERO, error );
+    }
+    inline void check_segment( const Point &segment_start, const Point &segment_end )
+    {
+        check( segment_start != segment_end, DegeneratedSegmentError() );
     }
 };

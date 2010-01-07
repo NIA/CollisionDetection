@@ -163,6 +163,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\errors.h"
+				>
+			</File>
+			<File
 				RelativePath=".\floating_point.h"
 				>
 			</File>

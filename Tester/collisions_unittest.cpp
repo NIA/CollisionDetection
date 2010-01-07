@@ -33,6 +33,18 @@ TEST(LineAndPlaneTest, PerpendicularTrivial)
     EXPECT_EQ( A1, result );
 }
 
+TEST(LineAndPlaneTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Vector L(0, 0, -2);
+
+    Vector ZERO(0, 0, 0);
+    Point result;
+
+    EXPECT_THROW( line_and_plane_collision( A, ZERO, A, L, result ), InvalidLineVectorError );
+    EXPECT_THROW( line_and_plane_collision( A, L, A, ZERO, result ), InvalidNormalError );
+}
+
 TEST(LineAndPlaneTest, PerpendicularSimple)
 {
     Point A(0, -0.5, 0);
@@ -118,6 +130,19 @@ TEST(SegmentAndPlaneTest, Arbitrary)
     EXPECT_TRUE( segment_and_plane_collision( A, D, P0, N, result ) );
     EXPECT_EQ( B, result );
     EXPECT_FALSE( segment_and_plane_collision( C, D, P0, N, result ) );
+}
+
+TEST(SegmentAndPlaneTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Point B(1, 1, 2);
+    Vector N(0, 0, 1);
+    Vector ZERO(0, 0, 0);
+    
+    Point result;
+
+    EXPECT_THROW( segment_and_plane_collision( A, A, A, N, result ), DegeneratedSegmentError );
+    EXPECT_THROW( segment_and_plane_collision( A, B, A, ZERO, result ), InvalidNormalError );
 }
 
 // Sphere and plane tests
@@ -218,6 +243,21 @@ TEST(SphereAndPlaneTest, Arbitrary)
     EXPECT_EQ( T2, result );
 }
 
+TEST(SphereAndPlaneTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Point B(3, 1, 1);
+
+    Vector N(0, 0, 1);
+
+    Vector ZERO( 0, 0, 0 );
+    
+    Point result;
+
+    EXPECT_THROW( sphere_and_plane_collision( A, B, 0.5, A, ZERO, result ), InvalidNormalError );
+    EXPECT_THROW( sphere_and_plane_collision( A, A, 0.5, A, N, result ), DegeneratedSegmentError );
+}
+
 // Sphere and point tests
 
 TEST(SphereAndPointTest, Trivial)
@@ -264,4 +304,16 @@ TEST(SphereAndPointTest, Arbitrary)
     EXPECT_FALSE( sphere_and_point_collision( A, C, dst_less, P ) );
     EXPECT_TRUE(  sphere_and_point_collision( C, B, distance( P, C )*2, P ) );
     EXPECT_FALSE( sphere_and_point_collision( C, B, distance( P, C )/2, P ) );
+}
+
+TEST(SphereAndPointTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Point B(3, 1, 1);
+
+    Vector N(0, 0, 1);
+
+    Vector ZERO( 0, 0, 0 );
+
+    EXPECT_THROW( sphere_and_point_collision( A, A, 0.5, A ), DegeneratedSegmentError );
 }

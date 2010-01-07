@@ -1,4 +1,5 @@
 #pragma once
+#include "errors.h"
 #include "point.h"
 #include "floating_point.h"
 
