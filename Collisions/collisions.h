@@ -30,6 +30,6 @@ namespace Collisions
                                     const Point &plane_point, const Vector &plane_normal,
                                     /*out*/ Point &collision_point);
 
-    //bool sphere_and_point_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
-    //                                const Point &point);
+    bool sphere_and_point_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                    const Point &point);
 };

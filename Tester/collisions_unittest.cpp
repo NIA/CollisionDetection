@@ -217,3 +217,51 @@ TEST(SphereAndPlaneTest, Arbitrary)
     EXPECT_TRUE( sphere_and_plane_collision( D, A, R, P0, N, result ) );
     EXPECT_EQ( T2, result );
 }
+
+// Sphere and point tests
+
+TEST(SphereAndPointTest, Trivial)
+{
+    Point P(2.5, 0, 0);
+
+    Point A(0, 0, 1.1);
+    Point C(0, 0, 0.1);
+    Point H(0, 0, 0); // nearest point
+    Point B(0, 0, -1.2);
+
+    EXPECT_TRUE(  sphere_and_point_collision( A, B, 2.6, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, B, 2.4, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( A, H, 2.6, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, H, 2.4, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( H, B, 2.6, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( H, B, 2.4, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( B, C, 2.6, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( B, C, 2.4, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( A, C, distance( P, C ), P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, C, distance( P, C )/2, P ) );
+}
+
+TEST(SphereAndPointTest, Arbitrary)
+{
+    Point P(0, 0, 0);
+
+    Point A(0, 0, 1);
+    Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
+    Point C(0.5, 0.5, 0);
+    Point B(1, 1, -1);
+
+    double dst = 1.0/sqrt(3.0);
+    double dst_more = dst*2;
+    double dst_less = dst/2;
+
+    EXPECT_TRUE(  sphere_and_point_collision( A, B, dst_more, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, B, dst_less, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( A, H, dst_more, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, H, dst_less, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( H, B, dst_more, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( H, B, dst_less, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( A, C, dst_more, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( A, C, dst_less, P ) );
+    EXPECT_TRUE(  sphere_and_point_collision( C, B, distance( P, C )*2, P ) );
+    EXPECT_FALSE( sphere_and_point_collision( C, B, distance( P, C )/2, P ) );
+}

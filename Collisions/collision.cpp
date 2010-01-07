@@ -80,25 +80,20 @@ namespace Collisions
     {
         Vector line_vector = segment_end - segment_start;
         Point point;
-        bool result;
-        if( line_vector * plane_normal > 0 )
-        {
-            // lower collision
-            result = segment_and_plane_collision(segment_start + sphere_radius*plane_normal,
-                                                 segment_end   + sphere_radius*plane_normal,
-                                                 plane_point, plane_normal, point);
-        }
-        else
-        {
-            // upper collision
-            result = segment_and_plane_collision(segment_start - sphere_radius*plane_normal,
-                                                 segment_end   - sphere_radius*plane_normal,
-                                                 plane_point, plane_normal, point);
-        }
+        Vector shift = ( line_vector * plane_normal > 0 ) ? sphere_radius*plane_normal : -sphere_radius*plane_normal; // lower or upper collision
+        bool result = segment_and_plane_collision(segment_start + shift,
+                                                  segment_end   + shift,
+                                                  plane_point, plane_normal, point);
         if( result )
         {
             collision_point = point;
         }
         return result;
+    }
+
+    bool sphere_and_point_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
+                                    const Point &point)
+    {
+        return greater_or_equal( sphere_radius, distance_between_point_and_segment( point, segment_start, segment_end ) );
     }
 };
