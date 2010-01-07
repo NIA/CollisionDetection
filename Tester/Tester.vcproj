@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\helpers_unittest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\point_unittest.cpp"
 				>
 			</File>

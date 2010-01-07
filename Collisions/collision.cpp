@@ -1,4 +1,5 @@
 #include "collisions.h"
+#include <algorithm>
 
 namespace Collisions
 {
@@ -15,11 +16,23 @@ namespace Collisions
     double distance_between_point_and_line(const Point &point, const Point &line_point, const Vector &line_vector,
                                            /*out*/ Point &nearest_point )
     {
+        // TODO: exceptions instead of asserts;
         assert( line_vector.sqared_norm() != 0 ); // line_vector must not be (0, 0, 0);
         double t = line_vector*( point - line_point) / line_vector.sqared_norm();
         Point perpendicular_base = line_point + t*line_vector;
         nearest_point = perpendicular_base;
         return distance(point, perpendicular_base);
+    }
+
+    double distance_between_point_and_segment(const Point &point, const Point &segment_start, const Point &segment_end)
+    {
+        Point nearest;
+        double dst = distance_between_point_and_line( point, segment_start, segment_end - segment_start, nearest );
+        if( ! is_point_between( nearest, segment_start, segment_end ) )
+        {
+            dst = std::min( distance(point, segment_start), distance(point, segment_end) );
+        }
+        return dst;
     }
 
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
