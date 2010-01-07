@@ -21,7 +21,21 @@ TEST(IsPointBetweenTest, OnSingleLine)
 }
 
 // Distance between point and line tests
-// TODO: tests for point on the line
+TEST(DistancePointAndLineTest, OnTheLine)
+{
+    Point P(0, 0, 0);
+
+    Point A(0, 0, 1.1);
+    Vector L(0, 0, 2.3); // z axis
+
+    Point H(0, 0, 0); // nearest point
+
+    Point nearest;
+
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( P, A, L, nearest ) ) );
+    EXPECT_EQ( H, nearest );
+}
+
 
 TEST(DistancePointAndLineTest, Trivial)
 {
@@ -64,6 +78,22 @@ TEST(DistancePointAndLineTest, BlackTest)
 }
 
 // Distance between point and line tests
+
+TEST(DistancePointAndSegmentTest, OnTheLine)
+{
+    Point P(0, 0, 0);
+
+    Point A(0, 0, 1.1);
+    Point C(0, 0, 0.1);
+    Point H(0, 0, 0); // nearest point
+    Point B(0, 0, -1.2);
+
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, A, B ) ) );
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, A, H ) ) );
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, H, B ) ) );
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, B, C ) ) );
+    EXPECT_DOUBLE_EQ( 0.1, distance_between_point_and_segment( P, A, C ) );
+}
 
 TEST(DistancePointAndSegmentTest, Trivial)
 {
