@@ -37,6 +37,29 @@ namespace Collisions
         return dst;
     }
 
+    double distance_between_two_lines(const Point &line_point1, const Vector &line_vector1,
+                                      const Point &line_point2, const Vector &line_vector2)
+    {
+        check_nonzero_vector( line_vector1, InvalidLineVectorError() );
+        check_nonzero_vector( line_vector2, InvalidLineVectorError() );
+        Vector h = line_vector1 & line_vector2; // perpendicular
+        double dst;
+        if( h.is_zero() )
+        {
+            // lines are parallel
+            Vector L1 = line_vector1.normalized();
+            Point H = line_point1 + ((line_point2 - line_point1)*L1)*L1; // A1 plus proection of A2-A1 onto L1
+            dst = distance( H, line_point2 );
+        }
+        else
+        {
+            // lines are not parallel
+            h.normalize();
+            dst = abs( (line_point2 - line_point1)*h ); // legth of projection of 'vector from one line to another' to the perpendicular
+        }
+        return dst;
+    }
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

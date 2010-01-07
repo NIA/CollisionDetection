@@ -33,18 +33,6 @@ TEST(LineAndPlaneTest, PerpendicularTrivial)
     EXPECT_EQ( A1, result );
 }
 
-TEST(LineAndPlaneTest, BlackTest)
-{
-    Point A(1, 1, 1);
-    Vector L(0, 0, -2);
-
-    Vector ZERO(0, 0, 0);
-    Point result;
-
-    EXPECT_THROW( line_and_plane_collision( A, ZERO, A, L, result ), InvalidLineVectorError );
-    EXPECT_THROW( line_and_plane_collision( A, L, A, ZERO, result ), InvalidNormalError );
-}
-
 TEST(LineAndPlaneTest, PerpendicularSimple)
 {
     Point A(0, -0.5, 0);
@@ -73,6 +61,18 @@ TEST(LineAndPlaneTest, Arbitrary)
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
     EXPECT_EQ( A1, result );
+}
+
+TEST(LineAndPlaneTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Vector L(0, 0, -2);
+
+    Vector ZERO(0, 0, 0);
+    Point result;
+
+    EXPECT_THROW( line_and_plane_collision( A, ZERO, A, L, result ), InvalidLineVectorError );
+    EXPECT_THROW( line_and_plane_collision( A, L, A, ZERO, result ), InvalidNormalError );
 }
 
 // Segment and plane tests

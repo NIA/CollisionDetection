@@ -15,6 +15,9 @@ namespace Collisions
 
     double distance_between_point_and_segment(const Point &point, const Point &segment_start, const Point &segment_end);
 
+    double distance_between_two_lines(const Point &line_point1, const Vector &line_vector1,
+                                      const Point &line_point2, const Vector &line_vector2);
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

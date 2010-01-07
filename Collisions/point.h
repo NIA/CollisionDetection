@@ -92,6 +92,11 @@ namespace Collisions
         {
             return x*another.x + y*another.y + z*another.z;
         }
+        // vector multiplication
+        Point operator&(const Point &another) const
+        {
+            return Point( y*another.z - z*another.y, z*another.x - x*another.z, x*another.y - y*another.x );
+        }
         
         // methods
         double sqared_norm() const
@@ -114,7 +119,11 @@ namespace Collisions
         {
             Point result = *this;
             return result.normalize();
-        }            
+        }
+        bool is_zero() const
+        {
+            return equal(x, 0) && equal(y, 0) && equal(z, 0);
+        }
     };
 
     typedef Point Vector; // define an alias
@@ -138,8 +147,7 @@ namespace Collisions
     // error checking functions
     template <class ErrType> inline void check_nonzero_vector( const Vector &vector, const ErrType &error )
     {
-        static const Vector ZERO( 0, 0, 0 );
-        check( vector != ZERO, error );
+        check( !vector.is_zero(), error );
     }
     inline void check_segment( const Point &segment_start, const Point &segment_end )
     {

@@ -191,3 +191,32 @@ TEST(PointTest, Distance)
     Point p2(4, -2, -3);
     EXPECT_DOUBLE_EQ( 5, distance(p1, p2) );
 }
+
+TEST(PointTest, VectorMultiply)
+{
+    Vector ex(1, 0, 0);
+    Vector ey(0, 1, 0);
+    Vector ez(0, 0, 1);
+    Vector ZERO(0, 0, 0);
+    
+    Vector v1(1, 0, -1);
+    Vector v2(0, 1, -1);
+    Vector v3(1, 1, 1);
+    v3.normalize();
+    v3 *= v1.norm()*v2.norm()*sin( acos( v1.normalized()*v2.normalized()) ); // area of parallelogram
+
+    EXPECT_EQ( ez, ex & ey );
+    EXPECT_EQ( -ez, ey & ex );
+    EXPECT_EQ( ZERO, ex & ex );
+
+    EXPECT_EQ( v3, v1 & v2 );
+}
+
+TEST(PointTest, IsZero)
+{
+    Point ZERO(0, 0, 0);
+    Point NON_ZERO(0, 0.001, 0);
+
+    EXPECT_TRUE( ZERO.is_zero() );
+    EXPECT_FALSE( NON_ZERO.is_zero() );
+}
