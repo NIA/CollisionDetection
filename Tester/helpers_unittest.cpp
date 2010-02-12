@@ -157,7 +157,7 @@ TEST(DistanceTwoLinesTest, PerpendicularTrivial)
     Point A2(0, 2.3, 2.3);
     Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
 
-    EXPECT_EQ( 2.3, distance_between_two_lines( A1, L1, A2, L2 ) );
+    EXPECT_DOUBLE_EQ( 2.3, distance_between_two_lines( A1, L1, A2, L2 ) );
 }
 
 TEST(DistanceTwoLinesTest, NonParallelArbitrary)
@@ -223,9 +223,10 @@ TEST(NearestPointsOnLinesTest, Crossing)
     Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
 
-    EXPECT_EQ( result1, result2 );
-    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );
-    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A2, L2, temp ) ) );
+    // check if result1 and result2 both equal to crossing point
+    EXPECT_EQ( result1, result2 );                                                          // check if they are equal
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if they are on first line
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A2, L2, temp ) ) );  // check if they are on second line
 }
 
 TEST(NearestPointsOnLinesTest, PerpendicularTrivial)
@@ -266,11 +267,12 @@ TEST(NearestPointsOnLinesTest, ParallelTrivial)
     Point A2(2.3, 0, 2.3);
     Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
 
-    Point result1, result2;
+    Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
 
-    EXPECT_EQ( Point(0, 0, 0), result1 );
-    EXPECT_EQ( Point(0, 0, 2.3), result2 );
+    EXPECT_DOUBLE_EQ( 2.3, distance(result1, result2) );                                    // check if they are really nearest
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
 }
 
 TEST(NearestPointsOnLinesTest, ParallelArbitrary)
@@ -284,9 +286,10 @@ TEST(NearestPointsOnLinesTest, ParallelArbitrary)
     Point A2N = A1 + 5*N.normalized();
     Point A2 = A2N + 8*L2;
 
-    Point result1, result2;
+    Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
 
-    EXPECT_EQ( A1, result1 );
-    EXPECT_EQ( A2, result2 );
+    EXPECT_DOUBLE_EQ( 5.0, distance(result1, result2) );                                    // check if they are really nearest
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
 }

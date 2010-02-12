@@ -37,6 +37,13 @@ namespace Collisions
         return dst;
     }
 
+    Point _nearest_on_parallels(const Point &line_point1, const Point &line_point2, const Vector &line_vector)
+    // returns the point on first line, nearest to line_point2
+    {
+        Vector L1 = line_vector.normalized();
+        return line_point1 + ((line_point2 - line_point1)*L1)*L1; // A1 plus proection of A2-A1 onto L1
+    }
+
     double distance_between_two_lines(const Point &line_point1, const Vector &line_vector1,
                                       const Point &line_point2, const Vector &line_vector2)
     {
@@ -47,8 +54,7 @@ namespace Collisions
         if( h.is_zero() )
         {
             // lines are parallel
-            Vector L1 = line_vector1.normalized();
-            Point H = line_point1 + ((line_point2 - line_point1)*L1)*L1; // A1 plus proection of A2-A1 onto L1
+            Point H = _nearest_on_parallels( line_point1, line_point2, line_vector1 );
             dst = distance( H, line_point2 );
         }
         else
@@ -70,15 +76,28 @@ namespace Collisions
         const Point &L1 = line_vector1;
         const Point &L2 = line_vector2;
         double t1, t2;
+
+        double cross_product_sqared_norm = (L1 & L2).sqared_norm();
         
-        // MATH_CHEAT: linear system solved by wxMaxima
-        t1 = (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x)
-           / ((L1.y*L1.y + L1.x*L1.x)*L2.z*L2.z + (-2*L1.y*L1.z*L2.y-2*L1.x*L1.z*L2.x)*L2.z + (L1.z*L1.z + L1.x*L1.x)*L2.y*L2.y-2*L1.x*L1.y*L2.x*L2.y + (L1.z*L1.z + L1.y*L1.y)*L2.x*L2.x);
-        t2 = ((((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x)
-           / ((L1.y*L1.y + L1.x*L1.x)*L2.z*L2.z + (-2*L1.y*L1.z*L2.y-2*L1.x*L1.z*L2.x)*L2.z + (L1.z*L1.z + L1.x*L1.x)*L2.y*L2.y-2*L1.x*L1.y*L2.x*L2.y + (L1.z*L1.z + L1.y*L1.y)*L2.x*L2.x);
-        // END MATH_CHEAT
-        result1 = A1 + t1*L1;
-        result2 = A2 + t2*L2;
+        if( equal( 0.0, cross_product_sqared_norm ) )
+        {
+            // lines are parallel
+            result1 = _nearest_on_parallels( line_point1, line_point2, line_vector1 );
+            result2 = line_point2;
+        }
+        else
+        {
+            // lines are not parallel
+
+            // MATH_CHEAT: linear system solved by wxMaxima
+            t1 = (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x)
+               / cross_product_sqared_norm;
+            t2 = ((((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x)
+               / cross_product_sqared_norm;
+            // END MATH_CHEAT
+            result1 = A1 + t1*L1;
+            result2 = A2 + t2*L2;
+        }
     }
 
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------

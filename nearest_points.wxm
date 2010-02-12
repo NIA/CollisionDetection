@@ -26,5 +26,17 @@ d2(t1, t2):=diff(d(t1, t2),t2,1);
 linsolve([d1(t1, t2)=0, d2(t1,t2)=0], [t1, t2]);
 /* [wxMaxima: input   end   ] */
 
+/* [wxMaxima: input   start ] */
+divisor :((l1y^2+l1x^2)*l2z^2+(-2*l1y*l1z*l2y-2*l1x*l1z*l2x)*l2z+(l1z^2+l1x^2)*l2y^2-2*l1x*l1y*l2x*l2y+(l1z^2+l1y^2)*l2x^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cross_product_sqared_norm : (l1y*l2z-l1z*l2y)^2 + (l1x*l2z-l1z*l2x)^2 + (l1x*l2y-l1y*l2x)^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp( divisor - cross_product_sqared_norm );
+/* [wxMaxima: input   end   ] */
+
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$
