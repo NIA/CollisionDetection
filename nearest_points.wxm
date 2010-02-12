@@ -1,0 +1,30 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 0.8.3 ] */
+
+/* [wxMaxima: input   start ] */
+distance(ax, ay, az, bx, by, bz):=(ax-bx)^2+(ay-by)^2+(az-bz)^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d(t1, t2):=distance( a1x + t1*l1x,
+                     a1y + t1*l1y,
+                     a1z + t1*l1z,
+                     a2x + t2*l2x,
+                     a2y + t2*l2y,
+                     a2z + t2*l2z );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d1(t1, t2):=diff(d(t1, t2),t1,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d2(t1, t2):=diff(d(t1, t2),t2,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve([d1(t1, t2)=0, d2(t1,t2)=0], [t1, t2]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

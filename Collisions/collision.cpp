@@ -60,6 +60,27 @@ namespace Collisions
         return dst;
     }
 
+    void nearest_points_on_lines(const Point &line_point1, const Vector &line_vector1,
+                                 const Point &line_point2, const Vector &line_vector2,
+                                 /*out*/ Point &result1, Point &result2)
+    {
+        // TODO: division by zero
+        const Point &A1 = line_point1; // aliases
+        const Point &A2 = line_point2;
+        const Point &L1 = line_vector1;
+        const Point &L2 = line_vector2;
+        double t1, t2;
+        
+        // MATH_CHEAT: linear system solved by wxMaxima
+        t1 = (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x)
+           / ((L1.y*L1.y + L1.x*L1.x)*L2.z*L2.z + (-2*L1.y*L1.z*L2.y-2*L1.x*L1.z*L2.x)*L2.z + (L1.z*L1.z + L1.x*L1.x)*L2.y*L2.y-2*L1.x*L1.y*L2.x*L2.y + (L1.z*L1.z + L1.y*L1.y)*L2.x*L2.x);
+        t2 = ((((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x)
+           / ((L1.y*L1.y + L1.x*L1.x)*L2.z*L2.z + (-2*L1.y*L1.z*L2.y-2*L1.x*L1.z*L2.x)*L2.z + (L1.z*L1.z + L1.x*L1.x)*L2.y*L2.y-2*L1.x*L1.y*L2.x*L2.y + (L1.z*L1.z + L1.y*L1.y)*L2.x*L2.x);
+        // END MATH_CHEAT
+        result1 = A1 + t1*L1;
+        result2 = A2 + t2*L2;
+    }
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

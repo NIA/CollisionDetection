@@ -209,3 +209,84 @@ TEST(DistanceTwoLinesTest, BlackTest)
     EXPECT_THROW( distance_between_two_lines( A1, L1, A2, ZERO ), InvalidLineVectorError );
     EXPECT_THROW( distance_between_two_lines( ZERO, ZERO, ZERO, ZERO ), InvalidLineVectorError );
 }
+
+// Nearest points on lines tests
+
+TEST(NearestPointsOnLinesTest, Crossing)
+{
+    Point A1(0.2, 0.2, 0.2);
+    Vector L1(0.99, 0.99, 0.99); // simplex normal
+
+    Point A2(0, 0, 1);
+    Vector L2(0.5, 0.5, -1); // on simplex
+
+    Point result1, result2, temp;
+    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+
+    EXPECT_EQ( result1, result2 );
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );
+    EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A2, L2, temp ) ) );
+}
+
+TEST(NearestPointsOnLinesTest, PerpendicularTrivial)
+{
+    Point A1(0.2, 0, 0);
+    Vector L1(0.99, 0, 0); // x axis
+
+    Point A2(0, 2.3, 2.3);
+    Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
+
+    Point result1, result2;
+    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+
+    EXPECT_EQ( Point(0, 0, 0), result1 );
+    EXPECT_EQ( Point(0, 0, 2.3), result2 );
+}
+
+TEST(NearestPointsOnLinesTest, NonParallelArbitrary)
+{
+    Point A1(1.0/3, 1.0/3, 1.0/3);
+    Vector L1(-0.5, 0, 0.5); // on little simplex (1x1x1)
+
+    Point A2(2.0/3, 2.0/3, 2.0/3);
+    Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
+
+    Point result1, result2;
+    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+
+    EXPECT_EQ( A1, result1 );
+    EXPECT_EQ( A2, result2 );
+}
+
+TEST(NearestPointsOnLinesTest, ParallelTrivial)
+{
+    Point A1(0.2, 0, 0);
+    Vector L1(0.99, 0, 0); // x axis
+
+    Point A2(2.3, 0, 2.3);
+    Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
+
+    Point result1, result2;
+    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+
+    EXPECT_EQ( Point(0, 0, 0), result1 );
+    EXPECT_EQ( Point(0, 0, 2.3), result2 );
+}
+
+TEST(NearestPointsOnLinesTest, ParallelArbitrary)
+{
+    Point A1(0.2, 0, 0);
+    Vector L1(1, 1, 1);
+
+    Vector N(1, 1, -2); // perpendicular to L1
+
+    Vector L2 = L1;
+    Point A2N = A1 + 5*N.normalized();
+    Point A2 = A2N + 8*L2;
+
+    Point result1, result2;
+    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+
+    EXPECT_EQ( A1, result1 );
+    EXPECT_EQ( A2, result2 );
+}
