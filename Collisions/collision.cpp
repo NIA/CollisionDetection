@@ -61,7 +61,7 @@ namespace Collisions
         {
             // lines are not parallel
             h.normalize();
-            dst = abs( (line_point2 - line_point1)*h ); // legth of projection of 'vector from one line to another' to the perpendicular
+            dst = fabs( (line_point2 - line_point1)*h ); // legth of projection of 'vector from one line to another' to the perpendicular
         }
         return dst;
     }

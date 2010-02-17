@@ -5,8 +5,11 @@ namespace Collisions
 {
     class RuntimeError : public std::exception
     {
+    private:
+        const char *message;
     public:
-        RuntimeError( const char *message = "runtime error" ) : std::exception( message ) {}
+        RuntimeError( const char *message = "runtime error" ) : message( message ) {}
+        virtual const char *what() const throw() { return message; }
     };
 
     class InvalidLineVectorError : public RuntimeError

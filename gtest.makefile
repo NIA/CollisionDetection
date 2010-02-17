@@ -32,12 +32,12 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 # House-keeping build targets.
 
 #all : $(TESTS)
-all : $(LIB_DIR)/gtest.a $(LIB_DIR)/gtest_main.a
+all : $(LIB_DIR)/libgtest.a $(LIB_DIR)/libgtest_main.a
 
 clean :
-	rm -f $(LIB_DIR)/gtest.a $(LIB_DIR)/gtest_main.a $(BUILD_DIR)/*.o
+	rm -f $(LIB_DIR)/libgtest.a $(LIB_DIR)/libgtest_main.a $(BUILD_DIR)/*.o
 
-# Builds gtest.a and gtest_main.a.
+# Builds libgtest.a and libgtest_main.a.
 
 # Usually you shouldn't tweak such internal variables, indicated by a
 # trailing _.
@@ -53,10 +53,10 @@ $(BUILD_DIR)/gtest-all.o : $(GTEST_SRCS_)
 $(BUILD_DIR)/gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(GTEST_DIR)/src/gtest_main.cc -o $@
 
-$(LIB_DIR)/gtest.a : $(BUILD_DIR)/gtest-all.o
+$(LIB_DIR)/libgtest.a : $(BUILD_DIR)/gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^
 
-$(LIB_DIR)/gtest_main.a : $(BUILD_DIR)/gtest-all.o $(BUILD_DIR)/gtest_main.o
+$(LIB_DIR)/libgtest_main.a : $(BUILD_DIR)/gtest-all.o $(BUILD_DIR)/gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 # Builds a sample test.  A test should link with either gtest.a or
