@@ -1,4 +1,5 @@
 *~
+*.sw*
 _Bin/
 _Build/
 _Lib/
