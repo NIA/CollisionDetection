@@ -12,37 +12,18 @@ namespace Collisions
         virtual const char *what() const throw() { return message; }
     };
 
-    // TODO: generator
-
-    class InvalidLineVectorError : public RuntimeError
-    {
-    public:
-        InvalidLineVectorError() : RuntimeError( "line vector cannot be zero vector" ) {}
-    };
-
-    class InvalidNormalError : public RuntimeError
-    {
-    public:
-        InvalidNormalError() : RuntimeError( "normal cannot be zero vector" ) {}
-    };
-
-    class DegeneratedSegmentError : public RuntimeError
-    {
-    public:
-        DegeneratedSegmentError() : RuntimeError( "segment is degenerated" ) {}
-    };
-
-    class DegeneratedTriangleError : public RuntimeError
-    {
-    public:
-        DegeneratedTriangleError() : RuntimeError( "triangle is degenerated" ) {}
-    };
-
-    class ParallelLinesError : public RuntimeError
-    {
-    public:
-        ParallelLinesError() : RuntimeError( "lines are parallel" ) {}
-    };
+#define DECLARE_ERROR(classname, message) \
+    class classname : public RuntimeError\
+    {\
+    public:\
+        classname() : RuntimeError( message ) {}\
+    }
+    
+    DECLARE_ERROR( InvalidLineVectorError, "line vector cannot be zero vector" );
+    DECLARE_ERROR( InvalidNormalError, "normal cannot be zero vector" );
+    DECLARE_ERROR( DegeneratedSegmentError, "segment is degenerated" );
+    DECLARE_ERROR( DegeneratedTriangleError, "triangle is degenerated" );
+    DECLARE_ERROR( ParallelLinesError, "lines are parallel" );
 
     template <class ErrType> inline void check( bool should_be_true, const ErrType &error )
     {
