@@ -22,6 +22,8 @@ namespace Collisions
                                  const Point &line_point2, const Vector &line_vector2,
                                  /*out*/ Point &result1, Point &result2);
 
+    bool is_point_inside_triangle( Point point, Point triangle1, Point triangle2, Point triangle3 );
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

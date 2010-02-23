@@ -100,6 +100,24 @@ namespace Collisions
         }
     }
 
+    bool is_point_inside_triangle( Point point, Point triangle1, Point triangle2, Point triangle3 )
+    {
+        // TODO: check whether the point is in the same plane as triangle.
+        // By now this function returns true if _proection_ of point is inside triangle
+        Vector u = triangle2 - triangle1;
+        Vector v = triangle3 - triangle1;
+        Vector r = point - triangle1;
+        
+        // find components of r along u and v
+        double determinant = (u*u)*(v*v) - (u*v)*(u*v);
+        check( determinant != 0, DegeneratedTriangleError() );
+
+        double ru = ( (r*u)*(v*v) - (u*v)*(r*v) ) / determinant;
+        double rv = ( (u*u)*(r*v) - (r*u)*(u*v) ) / determinant;
+
+        return greater_or_equal(ru, 0) && greater_or_equal(rv, 0) && less_or_equal(ru + rv, 1);
+    }
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.

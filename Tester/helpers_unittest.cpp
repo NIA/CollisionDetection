@@ -211,6 +211,7 @@ TEST(DistanceTwoLinesTest, BlackTest)
 }
 
 // Nearest points on lines tests
+// TODO: black test
 
 TEST(NearestPointsOnLinesTest, Crossing)
 {
@@ -293,3 +294,118 @@ TEST(NearestPointsOnLinesTest, ParallelArbitrary)
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
 }
+
+// Point inside triangle tests
+
+TEST(PointInsideTriangleTest, OutsideFlat)
+{
+    const Point triangle[] = { Point(0,0,0), Point(3,0,0), Point(2,3,0) };
+    const Point outsiders[] = { 
+                                Point(0,3,0),
+                                Point(3,3,0),
+                                Point(1, 1.6, 0),
+                                Point(1, -0.001, 0),
+                                Point(100, -100, 0)
+                              };
+    for( unsigned i = 0; i < sizeof(outsiders)/sizeof(outsiders[0]); ++i)
+    {
+        EXPECT_FALSE( is_point_inside_triangle( outsiders[i], triangle[0], triangle[1], triangle[2] ) ) 
+            << "Point " << outsiders[i] << " is not inside";
+    }
+}
+
+TEST(PointInsideTriangleTest, InsideFlat)
+{
+    const Point triangle[] = { Point(0,0,0), Point(3,0,0), Point(2,3,0) };
+    const Point insiders[] = { 
+                                Point(2,1,0),
+                                Point(1,1,0),
+                                Point(2,2,0),
+                                Point(0.2, 0.2*1.4999, 0),
+                              };
+    for( unsigned i = 0; i < sizeof(insiders)/sizeof(insiders[0]); ++i)
+    {
+        EXPECT_TRUE( is_point_inside_triangle( insiders[i], triangle[1], triangle[0], triangle[2] ) ) 
+            << "Point " << insiders[i] << " is not outside";
+    }
+}
+
+TEST(PointInsideTriangleTest, BorderFlat)
+{
+    const Point triangle[] = { Point(0,0,0), Point(3,0,0), Point(2,3,0) };
+    const Point on_border[] = { 
+                                triangle[0],
+                                triangle[1],
+                                triangle[2],
+                                Point(1,   1.5, 0),
+                                Point(1.5, 0,   0),
+                                Point(2.5, 1.5, 0),
+                              };
+    for( unsigned i = 0; i < sizeof(on_border)/sizeof(on_border[0]); ++i)
+    {
+        EXPECT_TRUE( is_point_inside_triangle( on_border[i], triangle[2], triangle[1], triangle[0] ) ) 
+            << "Point " << on_border[i] << " is on border, not outside";
+    }
+}
+
+TEST(PointInsideTriangleTest, OutsideSimplex)
+{
+    const Point triangle[] = { Point(1,0,0), Point(0,1,0), Point(0,0,1) };
+    const Point outsiders[] = { 
+                                Point(1.5,0.5,0),
+                                Point(0.1,-0.1,1),
+                                Point(0.6, -0.1, 0.5),
+                                Point(0.5+0.001/2, 0.5+0.001, -0.001),
+                                Point(100, -50, -49)
+                              };
+    for( unsigned i = 0; i < sizeof(outsiders)/sizeof(outsiders[0]); ++i)
+    {
+        EXPECT_FALSE( is_point_inside_triangle( outsiders[i], triangle[0], triangle[1], triangle[2] ) ) 
+            << "Point " << outsiders[i] << " is not inside";
+    }
+}
+
+TEST(PointInsideTriangleTest, InsideSimplex)
+{
+    const Point triangle[] = { Point(1,0,0), Point(0,1,0), Point(0,0,1) };
+    const Point insiders[] = { 
+                                Point(1.0/3, 1.0/3, 1.0/3),
+                                Point(0.5-0.001/2, 0.5-0.001, +0.001),
+                              };
+    for( unsigned i = 0; i < sizeof(insiders)/sizeof(insiders[0]); ++i)
+    {
+        EXPECT_TRUE( is_point_inside_triangle( insiders[i], triangle[1], triangle[0], triangle[2] ) ) 
+            << "Point " << insiders[i] << " is not outside";
+    }
+}
+
+TEST(PointInsideTriangleTest, BorderSimplex)
+{
+    const Point triangle[] = { Point(1,0,0), Point(0,1,0), Point(0,0,1) };
+    const Point on_border[] = { 
+                                triangle[0],
+                                triangle[1],
+                                triangle[2],
+                                Point(0.5, 0, 0.5),
+                                Point(0.75, 0.25,   0),
+                                Point(0.1, 0, 0.9),
+                              };
+    for( unsigned i = 0; i < sizeof(on_border)/sizeof(on_border[0]); ++i)
+    {
+        EXPECT_TRUE( is_point_inside_triangle( on_border[i], triangle[2], triangle[1], triangle[0] ) ) 
+            << "Point " << on_border[i] << " is on border, not outside";
+    }
+}
+
+TEST(PointInsideTriangleTest, BlackTest)
+{
+    Point A(0,0,0);
+    Point B(3,0,0);
+    Point C(2,3,0);
+    Point AB(2,0,0);
+
+    EXPECT_THROW( is_point_inside_triangle(C, A, AB, B), DegeneratedTriangleError );
+    EXPECT_THROW( is_point_inside_triangle(C, A, A, B), DegeneratedTriangleError );
+    EXPECT_THROW( is_point_inside_triangle(C, A, A, A), DegeneratedTriangleError );
+}
+

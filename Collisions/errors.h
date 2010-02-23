@@ -30,6 +30,12 @@ namespace Collisions
         DegeneratedSegmentError() : RuntimeError( "segment is degenerated" ) {}
     };
 
+    class DegeneratedTriangleError : public RuntimeError
+    {
+    public:
+        DegeneratedTriangleError() : RuntimeError( "triangle is degenerated" ) {}
+    };
+
     template <class ErrType> inline void check( bool should_be_true, const ErrType &error )
     {
         if( ! should_be_true )

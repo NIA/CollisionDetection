@@ -3,6 +3,8 @@
 _Bin/
 _Build/
 _Lib/
+#tags for ctags
+tags
 #ignore thumbnails created by windows
 Thumbs.db
 #Ignore files build by Visual Studio
