@@ -22,7 +22,11 @@ namespace Collisions
                                  const Point &line_point2, const Vector &line_vector2,
                                  /*out*/ Point &result1, Point &result2);
 
-    bool is_point_inside_triangle( Point point, Point triangle1, Point triangle2, Point triangle3 );
+    bool is_point_inside_triangle(const Point &point, const Point &triangle1, const Point &triangle2, const Point &triangle3);
+
+    // Returns base of perpendicular, dropped from first line to second, with given length.
+    // Returns "earlier" point (looking along first line vector)
+    Point perpendicular_base(const Vector &line_vector1, const Vector &line_vector2, const Point &crosspoint, double perpendicular_length);
 
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;

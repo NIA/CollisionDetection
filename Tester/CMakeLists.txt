@@ -5,7 +5,7 @@ link_directories( ${COLLISIONS_BINARY_DIR}/Collisions )
 include_directories( ../GoogleTestFramework/include )
 link_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../_Lib )
 
-set( TESTER_SRCS collisions_unittest.cpp  helpers_unittest.cpp  point_unittest.cpp )
+set( TESTER_SRCS collisions_unittest.cpp helpers_unittest.cpp point_unittest.cpp float_unittest )
 
 ## Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)

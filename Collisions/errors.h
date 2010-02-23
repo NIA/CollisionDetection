@@ -12,6 +12,8 @@ namespace Collisions
         virtual const char *what() const throw() { return message; }
     };
 
+    // TODO: generator
+
     class InvalidLineVectorError : public RuntimeError
     {
     public:
@@ -34,6 +36,12 @@ namespace Collisions
     {
     public:
         DegeneratedTriangleError() : RuntimeError( "triangle is degenerated" ) {}
+    };
+
+    class ParallelLinesError : public RuntimeError
+    {
+    public:
+        ParallelLinesError() : RuntimeError( "lines are parallel" ) {}
     };
 
     template <class ErrType> inline void check( bool should_be_true, const ErrType &error )

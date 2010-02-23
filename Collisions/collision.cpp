@@ -1,5 +1,6 @@
 #include "collisions.h"
 #include <algorithm>
+#include <cmath>
 
 namespace Collisions
 {
@@ -102,7 +103,7 @@ namespace Collisions
         }
     }
 
-    bool is_point_inside_triangle( Point point, Point triangle1, Point triangle2, Point triangle3 )
+    bool is_point_inside_triangle(const Point &point, const Point &triangle1, const Point &triangle2, const Point &triangle3)
     {
         // TODO: check whether the point is in the same plane as triangle.
         // By now this function returns true if _proection_ of point is inside triangle
@@ -118,6 +119,31 @@ namespace Collisions
         double rv = ( (u*u)*(r*v) - (r*u)*(u*v) ) / determinant;
 
         return greater_or_equal(ru, 0) && greater_or_equal(rv, 0) && less_or_equal(ru + rv, 1);
+    }
+
+    // Returns base of perpendicular, dropped from first line to second, with given length.
+    // Returns "earlier" point (looking along first line vector)
+    Point perpendicular_base(const Vector &line_vector1, const Vector &line_vector2, const Point &crosspoint, double perpendicular_length)
+    {
+        Vector L1 = line_vector1.normalized();
+        Vector L2 = line_vector2.normalized();
+        double cosine = L1*L2;
+        double angle = acos(cosine);
+        if( equal(0, cosine) )
+        {
+            // L1 is ortogonal to L2
+            return crosspoint;
+        }
+        else if( equal(0, sin(angle)) )
+        {
+            // L1 is parallel to L2
+            throw ParallelLinesError();
+        }
+        else
+        {
+            double distance = perpendicular_length/tan(angle);
+            return crosspoint - distance*L2;
+        }
     }
 
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------

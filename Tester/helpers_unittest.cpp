@@ -425,3 +425,41 @@ TEST(PointInsideTriangleTest, BlackTest)
     EXPECT_THROW( is_point_inside_triangle(C, A, A, A), DegeneratedTriangleError );
 }
 
+// Perpendicular base tests
+
+TEST(PerpendicularBaseTest, Sloping)
+{
+    double sloping_coef = 3.4; // L2 is horisontal, while L1 is sloped N:1, where N is sloping_coef
+    Point A(1, 1, 1);
+    Vector L1(-1, -sloping_coef, 0);
+    Vector L2( 1,  0, 0);
+    const double length = 2.3;
+
+    Point first = A + length/sloping_coef*L2;
+    Point second = A - length/sloping_coef*L2;
+
+    EXPECT_EQ( first, perpendicular_base( L1, L2, A, length ) );
+    EXPECT_EQ( first, perpendicular_base( L1, -L2, A, length ) );
+    EXPECT_EQ( second, perpendicular_base( -L1, L2, A, length ) );
+    EXPECT_EQ( second, perpendicular_base( -L1, -L2, A, length ) );
+}
+
+TEST(PerpendicularBaseTest, Perpendicular)
+{
+    Point A(1, 1, 1);
+    Vector L1( 0, -1, 0);
+    Vector L2( 1,  0, 0);
+    const double length = 2.3;
+
+    EXPECT_EQ( A, perpendicular_base( L1, L2, A, length ) );
+}
+
+TEST(PerpendicularBaseTest, Parallel)
+{
+    Point A(1, 1, 1);
+    Vector L1( 0, -1, 0);
+    const double length = 2.3;
+
+    EXPECT_THROW( perpendicular_base( L1, L1, A, length ), ParallelLinesError );
+    EXPECT_THROW( perpendicular_base( L1, -4*L1, A, length ), ParallelLinesError );
+}

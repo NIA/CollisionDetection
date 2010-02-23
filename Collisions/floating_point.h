@@ -70,4 +70,8 @@ namespace Collisions
     {
         return (a > b) || equal(a, b, max_ulps, epsilon);
     }
+    inline int sign(double x)
+    {
+        return (x > 0) - (x < 0);
+    }
 };
