@@ -211,7 +211,6 @@ TEST(DistanceTwoLinesTest, BlackTest)
 }
 
 // Nearest points on lines tests
-// TODO: black test
 
 TEST(NearestPointsOnLinesTest, Crossing)
 {
@@ -293,6 +292,23 @@ TEST(NearestPointsOnLinesTest, ParallelArbitrary)
     EXPECT_DOUBLE_EQ( 5.0, distance(result1, result2) );                                    // check if they are really nearest
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
+}
+
+TEST(NearestPointsOnLinesTest, BlackTest)
+{
+    Point A1(0, 0, 0);
+    Vector L1(1, 1, 1);
+
+    Point A2(0, 0, 1);
+    Vector L2(0.5, 0.5, -1);
+
+    Vector ZERO(0, 0, 0);
+
+    Point temp1, temp2;
+
+    EXPECT_THROW( nearest_points_on_lines( A1, ZERO, A2, L2, temp1, temp2 ), InvalidLineVectorError );
+    EXPECT_THROW( nearest_points_on_lines( A1, L1, A2, ZERO, temp1, temp2 ), InvalidLineVectorError );
+    EXPECT_THROW( nearest_points_on_lines( ZERO, ZERO, ZERO, ZERO, temp1, temp2 ), InvalidLineVectorError );
 }
 
 // Point inside triangle tests

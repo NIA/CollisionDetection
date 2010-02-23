@@ -70,7 +70,9 @@ namespace Collisions
                                  const Point &line_point2, const Vector &line_vector2,
                                  /*out*/ Point &result1, Point &result2)
     {
-        // TODO: division by zero
+        check_nonzero_vector( line_vector1, InvalidLineVectorError() );
+        check_nonzero_vector( line_vector2, InvalidLineVectorError() );
+
         const Point &A1 = line_point1; // aliases
         const Point &A2 = line_point2;
         const Point &L1 = line_vector1;
