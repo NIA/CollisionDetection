@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Collisions", "Collisions\Collisions.vcproj", "{4E2C88C9-44C6-4296-9BB5-B38249240980}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Google Test Framework", "Google Test Framework\msvc\gtest.vcproj", "{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Google Test Framework", "GoogleTestFramework\msvc\gtest.vcproj", "{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tester", "Tester\Tester.vcproj", "{C865D4B3-4E33-4B80-A5BA-6931EBBED3FE}"
 	ProjectSection(ProjectDependencies) = postProject
