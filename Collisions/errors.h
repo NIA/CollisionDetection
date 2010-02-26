@@ -12,6 +12,7 @@ namespace Collisions
         virtual const char *what() const throw() { return message; }
     };
 
+// a macro for declaring error classes. Don't forget a ';' after it.
 #define DECLARE_ERROR(classname, message) \
     class classname : public RuntimeError\
     {\
@@ -24,6 +25,7 @@ namespace Collisions
     DECLARE_ERROR( DegeneratedSegmentError, "segment is degenerated" );
     DECLARE_ERROR( DegeneratedTriangleError, "triangle is degenerated" );
     DECLARE_ERROR( ParallelLinesError, "lines are parallel" );
+    DECLARE_ERROR( OutOfBoundsError, "array index out of bounds" );
 
     template <class ErrType> inline void check( bool should_be_true, const ErrType &error )
     {

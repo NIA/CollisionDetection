@@ -92,7 +92,7 @@ namespace Collisions
         {
             return x*another.x + y*another.y + z*another.z;
         }
-        // vector multiplication
+        // cross product
         Point operator&(const Point &another) const
         {
             return Point( y*another.z - z*another.y, z*another.x - x*another.z, x*another.y - y*another.x );
@@ -153,4 +153,34 @@ namespace Collisions
     {
         check( segment_start != segment_end, DegeneratedSegmentError() );
     }
+
+    // triangle class
+    class Triangle
+    {
+    private:
+        Point vertices[3];
+    public:
+        Triangle(const Point &vertex0, const Point &vertex1, const Point &vertex2)
+        {
+            vertices[0] = vertex0;
+            vertices[1] = vertex1;
+            vertices[2] = vertex2;
+        }
+        Point & operator[](unsigned index)
+        {
+            check( index <= 3, OutOfBoundsError() );
+            return vertices[index];
+        }
+        Point const & operator[](unsigned index) const
+        {
+            check( index <= 3, OutOfBoundsError() );
+            return vertices[index];
+        }
+        Vector normal()
+        {
+            Vector normal = ( (vertices[2] - vertices[0]) & (vertices[1] - vertices[0]) ).normalized(); // normal is calculated as vector product of two sides
+            check( !normal.is_zero(), DegeneratedTriangleError() );
+            return normal;
+        }
+    };
 };

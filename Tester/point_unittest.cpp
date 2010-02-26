@@ -220,3 +220,34 @@ TEST(PointTest, IsZero)
     EXPECT_TRUE( ZERO.is_zero() );
     EXPECT_FALSE( NON_ZERO.is_zero() );
 }
+
+// Triangle class tests
+
+TEST(TriangleTest, Creation)
+{
+    Point A(1,2,3), B(2,3,4), C(3,3,3);
+    Triangle triangle(A, B, C);
+
+    EXPECT_EQ(A, triangle[0]);
+    EXPECT_EQ(B, triangle[1]);
+    EXPECT_EQ(C, triangle[2]);
+}
+
+TEST(TriangleTest, Normal)
+{
+    Point A(1,0,0), B(0,0,1), C(0,1,0);
+    Triangle triangle(A, B, C);
+
+    Vector expected_normal = Vector(1, 1, 1).normalized();
+    
+    EXPECT_EQ( expected_normal, triangle.normal() );
+}
+
+TEST(TriangleTest, BlackTest)
+{
+    Point A(1,2,3), B(2,3,4), C(3,4,5);
+    Triangle triangle(A, B, C);
+    
+    EXPECT_THROW( triangle[45], OutOfBoundsError );
+    EXPECT_THROW( triangle.normal(), DegeneratedTriangleError );
+}

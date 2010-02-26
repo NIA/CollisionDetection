@@ -103,13 +103,13 @@ namespace Collisions
         }
     }
 
-    bool is_point_inside_triangle(const Point &point, const Point &triangle1, const Point &triangle2, const Point &triangle3)
+    bool is_point_inside_triangle(const Point &point, const Triangle &triangle)
     {
         // TODO: check whether the point is in the same plane as triangle.
         // By now this function returns true if _proection_ of point is inside triangle
-        Vector u = triangle2 - triangle1;
-        Vector v = triangle3 - triangle1;
-        Vector r = point - triangle1;
+        Vector u = triangle[1] - triangle[0];
+        Vector v = triangle[2] - triangle[0];
+        Vector r = point - triangle[0];
         
         // find components of r along u and v
         double determinant = (u*u)*(v*v) - (u*v)*(u*v);
@@ -125,6 +125,9 @@ namespace Collisions
     // Returns "earlier" point (looking along first line vector)
     Point perpendicular_base(const Vector &line_vector1, const Vector &line_vector2, const Point &crosspoint, double perpendicular_length)
     {
+        check_nonzero_vector( line_vector1, InvalidLineVectorError() );
+        check_nonzero_vector( line_vector2, InvalidLineVectorError() );
+
         Vector L1 = line_vector1.normalized();
         Vector L2 = line_vector2.normalized();
         double cosine = L1*L2;
@@ -247,7 +250,7 @@ namespace Collisions
 
             Vector L_segment_other = (result - nearest_on_segment).normalized();
             assert( L_segment_other == L_segment || L_segment_other == -L_segment );
-            // calculating normal, aimed from L_segment to L_sphere as double vector product. L_segment_other is used instead of L_segment in order to avoid sign mess
+            // calculating normal, aimed from L_segment to L_sphere as double cross-product. L_segment_other is used instead of L_segment in order to avoid sign mess
             Vector normal = ( ( L_sphere & L_segment_other ) & L_segment_other ).normalized();
             Point sphere_center = perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision
 
