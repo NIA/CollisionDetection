@@ -218,4 +218,53 @@ namespace Collisions
 
         return greater_or_equal( sphere_radius, distance_between_point_and_segment( point, segment_start, segment_end ) );
     }
+
+    bool sphere_and_segment_collision(const Point &sphere_segment_start, const Point &sphere_segment_end, double sphere_radius,
+                                      const Point &segment_start, const Point &segment_end,
+                                      /*out*/ Point &collision_point)
+    {
+        check_segment( segment_start, segment_end );
+        check_segment( sphere_segment_start, sphere_segment_end );
+
+        Vector L_sphere = (sphere_segment_end - sphere_segment_start).normalized();
+        Vector L_segment = (segment_end - segment_start).normalized();
+        
+        Point nearest_on_sphere_way, nearest_on_segment;
+        nearest_points_on_lines( sphere_segment_start, L_sphere, segment_start, L_segment, nearest_on_sphere_way, nearest_on_segment);
+        
+        double dist = distance( nearest_on_sphere_way, nearest_on_segment );
+        if( greater_or_equal( sphere_radius, dist ) )
+        {
+            // if distance between lines is less then radius
+            double perpendicular_length = sqrt( sphere_radius*sphere_radius - dist*dist );
+            Point result = perpendicular_base( L_sphere, L_segment, nearest_on_segment, perpendicular_length );
+
+            // now check that this collision point is inside the segment
+            if( !is_point_between( result, segment_start, segment_end ) )
+            {
+                return false;
+            }
+
+            Vector L_segment_other = (result - nearest_on_segment).normalized();
+            assert( L_segment_other == L_segment || L_segment_other == -L_segment );
+            // calculating normal, aimed from L_segment to L_sphere as double vector product. L_segment_other is used instead of L_segment in order to avoid sign mess
+            Vector normal = ( ( L_sphere & L_segment_other ) & L_segment_other ).normalized();
+            Point sphere_center = perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision
+
+            // now check that this collision point is inside the segment
+            if( !is_point_between( sphere_center, sphere_segment_start, sphere_segment_end ) )
+            {
+                return false;
+            }
+
+            // all checks passed => there is a collision
+            collision_point = result;
+            return true;
+        }
+        else
+        {
+            // otherwise, sphere flies too far, no collision
+            return false;
+        }
+    }
 };

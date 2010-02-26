@@ -24,7 +24,7 @@ namespace Collisions
 
     bool is_point_inside_triangle(const Point &point, const Point &triangle1, const Point &triangle2, const Point &triangle3);
 
-    // Returns base of perpendicular, dropped from first line to second, with given length.
+    // Returns base of perpendicular, dropped from first of crossing lines to second, having given length.
     // Returns "earlier" point (looking along first line vector)
     Point perpendicular_base(const Vector &line_vector1, const Vector &line_vector2, const Point &crosspoint, double perpendicular_length);
 
@@ -46,4 +46,8 @@ namespace Collisions
 
     bool sphere_and_point_collision(const Point &segment_start, const Point &segment_end, double sphere_radius,
                                     const Point &point);
+
+    bool sphere_and_segment_collision(const Point &sphere_segment_start, const Point &sphere_segment_end, double sphere_radius,
+                                      const Point &segment_start, const Point &segment_end,
+                                      /*out*/ Point &collision_point);
 };
