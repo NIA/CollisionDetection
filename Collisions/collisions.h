@@ -50,4 +50,7 @@ namespace Collisions
     bool sphere_and_segment_collision(const Point &sphere_segment_start, const Point &sphere_segment_end, double sphere_radius,
                                       const Point &segment_start, const Point &segment_end,
                                       /*out*/ Point &collision_point);
+    
+    bool sphere_and_triangle_collision(const Point &segment_start, const Point &segment_end, double sphere_radius, const Triangle &triangle,
+                                       /*out*/ Point &collision_point);
 };

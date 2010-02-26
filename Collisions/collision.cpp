@@ -238,7 +238,7 @@ namespace Collisions
         double dist = distance( nearest_on_sphere_way, nearest_on_segment );
         if( greater_or_equal( sphere_radius, dist ) )
         {
-            // if distance between lines is less then radius
+            // if distance between lines is less than radius
             double perpendicular_length = sqrt( sphere_radius*sphere_radius - dist*dist );
             Point result = perpendicular_base( L_sphere, L_segment, nearest_on_segment, perpendicular_length );
 
@@ -269,5 +269,69 @@ namespace Collisions
             // otherwise, sphere flies too far, no collision
             return false;
         }
+    }
+
+    bool sphere_and_triangle_collision(const Point &segment_start, const Point &segment_end, double sphere_radius, const Triangle &triangle,
+                                       /*out*/ Point &collision_point)
+    {
+        check_segment( segment_start, segment_end );
+        
+        // 1) is it touching a plane of triangle?
+        Point result_point;
+        bool result = sphere_and_plane_collision( segment_start, segment_end, sphere_radius, triangle[0], triangle.normal(), result_point );
+        if( result )
+        {
+            // 1.1) is touching point really inside triangle
+            if( is_point_inside_triangle(result_point, triangle) )
+            {
+                collision_point = result_point;
+                return true;
+            }
+        }
+        
+        // 2) if not, is it touching any side of triangle?
+        bool any_result = false; // will be true, if there is a collision with at least one side
+        Point best_result_point; // best point is the point, nearest to the start of sphere's way
+        for( unsigned i = 0; i < 3; ++i )
+        {
+            result = sphere_and_segment_collision(segment_start, segment_end, sphere_radius,
+                                                  triangle[ (i+1)%3 ], triangle[ (i+2)%3 ], result_point );
+            if( result )
+            {
+                if( !any_result || distance(best_result_point, segment_start) > distance(result_point, segment_start) )
+                {
+                    // if no best result, or if the best result is worst than current
+                    best_result_point = result_point;
+                }
+                any_result = true;
+            }
+        }
+        if( any_result )
+        {
+            collision_point = best_result_point;
+            return true;
+        }
+
+        // 3) if not, is it touching any vertex of triangle?
+        any_result = false;
+        for( unsigned i = 0; i < 3; ++i )
+        {
+            result = sphere_and_point_collision(segment_start, segment_end, sphere_radius, triangle[i] );
+            if( result )
+            {
+                if( !any_result || distance(best_result_point, segment_start) > distance(triangle[i], segment_start) )
+                {
+                    // if no best result, or if the best result is worst than current
+                    best_result_point = triangle[i];
+                }
+                any_result = true;
+            }
+        }
+        if( any_result )
+        {
+            collision_point = best_result_point;
+            return true;
+        }
+        return false;
     }
 };

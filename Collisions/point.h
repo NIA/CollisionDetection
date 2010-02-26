@@ -176,7 +176,7 @@ namespace Collisions
             check( index <= 3, OutOfBoundsError() );
             return vertices[index];
         }
-        Vector normal()
+        Vector normal() const
         {
             Vector normal = ( (vertices[2] - vertices[0]) & (vertices[1] - vertices[0]) ).normalized(); // normal is calculated as vector product of two sides
             check( !normal.is_zero(), DegeneratedTriangleError() );
