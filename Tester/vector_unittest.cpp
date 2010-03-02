@@ -232,6 +232,19 @@ TEST(PointTest, IsCollinearTo)
     EXPECT_TRUE( v1.is_collinear_to(-35.8*v1) );
 }
 
+TEST(PointTest, IsOrthogonalTo)
+{
+    Vector v1 (1, 0, 1);
+    Vector v11(1, 1, 1);
+    Vector v2 (0, 1, 0);
+
+    EXPECT_FALSE( v1.is_orthogonal_to(v1) );
+    EXPECT_FALSE( v1.is_orthogonal_to(-35.8*v1) );
+    EXPECT_FALSE( v1.is_orthogonal_to(v11) );
+    EXPECT_TRUE( v1.is_orthogonal_to(v2) );
+    EXPECT_TRUE( v2.is_orthogonal_to(v1) );
+}
+
 // Triangle class tests
 
 TEST(TriangleTest, Creation)

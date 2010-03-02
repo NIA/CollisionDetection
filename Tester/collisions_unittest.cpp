@@ -309,11 +309,147 @@ TEST(SphereAndPointTest, Arbitrary)
 TEST(SphereAndPointTest, BlackTest)
 {
     Point A(1, 1, 1);
-    Point B(3, 1, 1);
-
-    Vector N(0, 0, 1);
-
-    Vector ZERO( 0, 0, 0 );
 
     EXPECT_THROW( sphere_and_point_collision( A, A, 0.5, A ), DegeneratedSegmentError );
 }
+
+// Sphere and point tests
+
+TEST( SphereAndSegmentTest, Parallel )
+{
+    Point P1(0,0,0), P2(2,0,0); // segment
+    Point A (0,1,0),  B(2,1,0); // sphere segment
+    Point temp;
+
+    EXPECT_FALSE( sphere_and_segment_collision( A, B, 0.5, P1, P2, temp ) );
+    EXPECT_FALSE( sphere_and_segment_collision( A, B, 1.0, P1, P2, temp ) );
+    EXPECT_FALSE( sphere_and_segment_collision( A, B, 1.5, P1, P2, temp ) );
+}
+
+TEST(SphereAndSegmentTest, PerpendicularCrossingTrivial)
+{
+    Point P1(0,0,0), P2(2,0,0); // segment
+    Point P(0.2, 0, 0); // P P1 is a part of segment
+
+    double R = 0.25;
+
+    Point A (1,  R+1, 0);  // upper than segment
+    Point AA(1,    R, 0);  // sphere is touching the segment, upper
+    Point B (1,    0, 0);  // on the segment
+    Point CC(1,   -R, 0);  // sphere is touching the segment, lower
+    Point C (1, -R-1, 0);  // lower
+    Point D (1, -R-5, 0);  // even lower
+
+    Point result;
+    
+    EXPECT_FALSE( sphere_and_segment_collision(  C,  D, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, AA, R, P1, P2, result ) );
+    EXPECT_EQ( B, result );
+    EXPECT_FALSE( sphere_and_segment_collision( AA,  A, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, CC, R, P1, P2, result ) );
+    EXPECT_EQ( B, result );
+    EXPECT_TRUE(  sphere_and_segment_collision( CC,  A, R, P1, P2, result ) );
+    EXPECT_EQ( B, result );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A,  C, R, P1, P2, result ) );
+    EXPECT_EQ( B, result );
+    EXPECT_TRUE(  sphere_and_segment_collision(  C,  A, R, P1, P2, result ) );
+    EXPECT_EQ( B, result );
+
+    EXPECT_FALSE(  sphere_and_segment_collision(  A,  C, R, P1, P, result ) );
+    EXPECT_FALSE(  sphere_and_segment_collision(  C,  A, R, P1, P, result ) );
+}
+
+TEST(SphereAndSegmentTest, PerpendicularTrivial)
+{
+    Point P1(0,0,0), P2(2,0,0); // segment
+    double R = 0.5;
+    double height = 0.3;
+    double d = sqrt( R*R - height*height );
+
+    Point A (1,  d+1, height);  // upper than segment
+    Point AU(1, d+0.001, height);  // sphere almost touching the segment, but a little upper
+    Point AA(1,    d, height);  // sphere is touching the segment, upper
+    Point B (1,    0, height);  // over the segment
+    Point CC(1,   -d, height);  // sphere is touching the segment, lower
+    Point C (1, -d-1, height);  // lower
+    Point D (1, -d-5, height);  // even lower
+    
+    Point H (1,    0,      0);  // touch point
+
+    Point result;
+    
+    EXPECT_FALSE( sphere_and_segment_collision(  C,  D, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, AA, R, P1, P2, result ) );
+    EXPECT_EQ( H, result );
+    EXPECT_FALSE( sphere_and_segment_collision(  A, AU, R, P1, P2, result ) );
+    EXPECT_FALSE( sphere_and_segment_collision( AA,  A, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, CC, R, P1, P2, result ) );
+    EXPECT_EQ( H, result );
+    EXPECT_TRUE(  sphere_and_segment_collision( CC,  A, R, P1, P2, result ) );
+    EXPECT_EQ( H, result );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A,  C, R, P1, P2, result ) );
+    EXPECT_EQ( H, result );
+    EXPECT_TRUE(  sphere_and_segment_collision(  C,  A, R, P1, P2, result ) );
+    EXPECT_EQ( H, result );
+}
+
+TEST(SphereAndSegmentTest, Arbitrary)
+{
+    Point P1(0,0,0), P2(2,0,0); // segment
+    double R = 0.5;
+    double height = 0.3;
+    double d = sqrt( R*R - height*height );
+
+    // sphere flies by the line y=1-x; z=height
+    Point A ( 1-(d+1),  d+1, height);
+    double AUy = d + 0.001;
+    Point AU( 1 - AUy,  AUy, height);
+    Point AA(   1 - d,    d, height);
+    Point B (       1,    0, height);
+    Point CC(   1 + d,   -d, height);
+    Point C ( 1+(d+1), -d-1, height);
+    Point D ( 1+(d+5), -d-5, height);
+    
+    Point H1(   1 - d,    0,      0);  // touch point
+    Point H2(   1 + d,    0,      0);  // touch point
+
+    Point result;
+    
+    EXPECT_FALSE( sphere_and_segment_collision(  C,  D, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, AA, R, P1, P2, result ) );
+    EXPECT_EQ( H1, result );
+    EXPECT_FALSE( sphere_and_segment_collision(  A, AU, R, P1, P2, result ) );
+    EXPECT_FALSE( sphere_and_segment_collision( AA,  A, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A,  B, R, P1, P2, result ) );
+    EXPECT_EQ( H1, result );
+    EXPECT_FALSE( sphere_and_segment_collision(  B,  A, R, P1, P2, result ) );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A, CC, R, P1, P2, result ) );
+    EXPECT_EQ( H1, result );
+    EXPECT_TRUE(  sphere_and_segment_collision( CC,  A, R, P1, P2, result ) );
+    EXPECT_EQ( H2, result );
+
+    EXPECT_TRUE(  sphere_and_segment_collision(  A,  C, R, P1, P2, result ) );
+    EXPECT_EQ( H1, result );
+    EXPECT_TRUE(  sphere_and_segment_collision(  C,  A, R, P1, P2, result ) );
+    EXPECT_EQ( H2, result );
+}
+
+TEST(SphereAndSegmentTest, BlackTest)
+{
+    Point A(1, 1, 1);
+    Point B(3, 1, 1);
+    Point temp;
+
+    EXPECT_THROW( sphere_and_segment_collision( A, A, 0.5, A, B, temp ), DegeneratedSegmentError );
+    EXPECT_THROW( sphere_and_segment_collision( A, B, 0.5, A, A, temp ), DegeneratedSegmentError );
+}
+

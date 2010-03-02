@@ -255,11 +255,20 @@ namespace Collisions
                 return false;
             }
 
-            Vector L_segment_other = (result - nearest_on_segment).normalized();
-            assert( L_segment_other == L_segment || L_segment_other == -L_segment );
-            // calculating normal, aimed from L_segment to L_sphere as double cross-product. L_segment_other is used instead of L_segment in order to avoid sign mess
-            Vector normal = ( ( L_sphere & L_segment_other ) & L_segment_other ).normalized();
-            Point sphere_center = perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision
+            Vector normal; // normal, aimed from L_segment to L_sphere
+            if( L_sphere.is_orthogonal_to(L_segment) )
+            {
+                normal = - L_sphere.normalized();
+            }
+            else
+            {
+                Vector L_segment_other = (result - nearest_on_segment).normalized();
+                assert( L_segment_other == L_segment || L_segment_other == -L_segment );
+                // calculating normal, aimed from L_segment to L_sphere as double cross-product. L_segment_other is used instead of L_segment in order to avoid sign mess
+                normal = ( ( L_sphere & L_segment_other ) & L_segment_other ).normalized();
+            }
+            assert( !normal.is_zero() );
+            Point sphere_center = result + perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision
 
             // now check that this collision point is inside the segment
             if( !is_point_between( sphere_center, sphere_segment_start, sphere_segment_end ) )

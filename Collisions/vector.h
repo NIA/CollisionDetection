@@ -129,6 +129,10 @@ namespace Collisions
         {
             return ((*this) & another).is_zero();
         }
+        bool is_orthogonal_to(const Vector &another) const
+        {
+            return equal( 0, (*this)*another );
+        }
     };
 
     typedef Vector Point; // define an alias
