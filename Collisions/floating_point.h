@@ -1,5 +1,5 @@
 #pragma once
-#include "assert.h"
+#include <assert.h>
 #include "errors.h"
 #include <cstdlib>
 #include <cmath>

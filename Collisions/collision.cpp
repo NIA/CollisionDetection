@@ -236,6 +236,13 @@ namespace Collisions
         nearest_points_on_lines( sphere_segment_start, L_sphere, segment_start, L_segment, nearest_on_sphere_way, nearest_on_segment);
         
         double dist = distance( nearest_on_sphere_way, nearest_on_segment );
+        
+        if( L_sphere.is_collinear_to( L_segment ) )
+        {
+            // when the sphere is flying in parallel to the line, it's assumed to be no collision
+            return false;
+        }
+        
         if( greater_or_equal( sphere_radius, dist ) )
         {
             // if distance between lines is less than radius

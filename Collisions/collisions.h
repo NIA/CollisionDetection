@@ -1,6 +1,6 @@
 #pragma once
 #include "errors.h"
-#include "point.h"
+#include "vector.h"
 #include "floating_point.h"
 
 namespace Collisions

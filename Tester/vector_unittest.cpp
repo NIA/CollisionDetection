@@ -1,4 +1,4 @@
-#include "../Collisions/point.h"
+#include "../Collisions/vector.h"
 #include <gtest/gtest.h>
 
 using namespace Collisions;
@@ -221,6 +221,17 @@ TEST(PointTest, IsZero)
     EXPECT_FALSE( NON_ZERO.is_zero() );
 }
 
+TEST(PointTest, IsCollinearTo)
+{
+    Vector v1(1, 0, -1);
+    Vector v2(0, 1, -1);
+
+    EXPECT_FALSE( v1.is_collinear_to(v2) );
+    EXPECT_FALSE( v2.is_collinear_to(v1) );
+    EXPECT_TRUE( v1.is_collinear_to(v1) );
+    EXPECT_TRUE( v1.is_collinear_to(-35.8*v1) );
+}
+
 // Triangle class tests
 
 TEST(TriangleTest, Creation)
@@ -251,3 +262,4 @@ TEST(TriangleTest, BlackTest)
     EXPECT_THROW( triangle[45], OutOfBoundsError );
     EXPECT_THROW( triangle.normal(), DegeneratedTriangleError );
 }
+
