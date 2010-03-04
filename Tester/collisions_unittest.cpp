@@ -453,3 +453,78 @@ TEST(SphereAndSegmentTest, BlackTest)
     EXPECT_THROW( sphere_and_segment_collision( A, B, 0.5, A, A, temp ), DegeneratedSegmentError );
 }
 
+TEST(SphereAndTriangleTest, TouchingPlane)
+{
+    double R = 0.32;
+    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    Point inner(2,2,0);
+    Point outer( 3, -1.5*R, 0);
+    Vector L( 0, 0, 2*R );
+
+    Point result;
+    
+    EXPECT_TRUE(  sphere_and_triangle_collision( inner-L, inner+L, R, triangle, result ) );
+    EXPECT_EQ( inner, result );
+    EXPECT_FALSE( sphere_and_triangle_collision( outer-L, outer+L, R, triangle, result ) );
+}
+
+TEST(SphereAndTriangleTest, TouchingNearestSide)
+{
+    double R = 0.32;
+    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    Point on_side(4,0,0);
+    Vector L( 0, 1, 0 );
+    Point A = on_side + (6 + R)*L;
+    Point B = on_side - 2*R*L;
+
+    Point result;
+    
+    EXPECT_TRUE(  sphere_and_triangle_collision( B, A, R, triangle, result ) );
+    EXPECT_EQ( on_side, result );
+    // now lets launch it backwards
+    EXPECT_TRUE(  sphere_and_triangle_collision( A, B, R, triangle, result ) );
+    EXPECT_NE( on_side, result ); // TODO: calculate actual touch point for another side
+}
+
+TEST(SphereAndTriangleTest, TouchingVertexNotSide)
+{
+    double R = 0.32;
+    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    Point A(7,-1,0);
+    Point B(3,+1,0);
+
+    Point result;
+    
+    EXPECT_TRUE( sphere_and_triangle_collision( A, B, R, triangle, result ) );
+    EXPECT_EQ( triangle[2], result );
+}
+
+TEST(SphereAndTriangleTest, TouchingNearestVertex)
+{
+    double R = 0.32;
+    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    Point A = triangle[1] + Point(0,0,R);
+    Point B = triangle[0] - Point(R,R,0);
+
+    Point result;
+    
+    EXPECT_TRUE( sphere_and_triangle_collision( A, B, R, triangle, result ) );
+    EXPECT_EQ( triangle[1], result );
+    EXPECT_TRUE( sphere_and_triangle_collision( B, A, R, triangle, result ) );
+    EXPECT_EQ( triangle[0], result );
+}
+
+TEST(SphereAndTriangleTest, OutsideOnly)
+{
+    double R = 0.32;
+    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    Point A(2, 2*R,0);
+    Point B(2,-3*R,0);
+
+    Point result;
+    
+    EXPECT_TRUE(  sphere_and_triangle_collision( B, A, R, triangle, result ) );
+    // FIXME: check whether it is touching side/vertex while flying inside, not outside
+    EXPECT_FALSE( sphere_and_triangle_collision( A, B, R, triangle, result ) );
+}
+

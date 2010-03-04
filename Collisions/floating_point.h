@@ -17,7 +17,7 @@ namespace Collisions
     };
 
     const long long DEFAULT_MAX_ULPS = 50;
-    const double DEFAULT_EPSILON = 1e-15;
+    const double DEFAULT_EPSILON = 1e-12;
 
 #ifdef _MSC_VER
     inline long long llabs(long long x) { return _abs64(x); }
