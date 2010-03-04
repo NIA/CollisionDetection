@@ -460,12 +460,16 @@ TEST(SphereAndTriangleTest, TouchingPlane)
     Point inner(2,2,0);
     Point outer( 3, -1.5*R, 0);
     Vector L( 0, 0, 2*R );
+    
+    Point upper1 = inner + L;
+    Point upper2 = outer + L;
 
     Point result;
     
     EXPECT_TRUE(  sphere_and_triangle_collision( inner-L, inner+L, R, triangle, result ) );
     EXPECT_EQ( inner, result );
     EXPECT_FALSE( sphere_and_triangle_collision( outer-L, outer+L, R, triangle, result ) );
+    EXPECT_FALSE( sphere_and_triangle_collision(  upper1,  upper2, R, triangle, result ) );
 }
 
 TEST(SphereAndTriangleTest, TouchingNearestSide)
