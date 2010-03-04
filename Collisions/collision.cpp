@@ -149,6 +149,12 @@ namespace Collisions
         }
     }
 
+    // if vector pointing outside triangle, while crossing given side
+    bool _is_vector_outside(Vector vector, Triangle triangle, unsigned side)
+    {
+        return vector*triangle.side_outer_normal(side) < 0;
+    }
+
     // -------------------- C o l l i s i o n   f i n d e r s -----------------------------
     // All functions return true, if there is a collision, false - if none;
     // and write collision point into `collison_point', if there is any.
@@ -291,6 +297,7 @@ namespace Collisions
                                        /*out*/ Point &collision_point)
     {
         check_segment( segment_start, segment_end );
+        Vector L_sphere = segment_end - segment_start;
         
         // 1) is it touching a plane of triangle?
         Point result_point;
@@ -312,7 +319,7 @@ namespace Collisions
         {
             result = sphere_and_segment_collision(segment_start, segment_end, sphere_radius,
                                                   triangle[i], triangle[ (i+1)%3 ], result_point );
-            if( result && ( (segment_end-segment_start)*triangle.side_outer_normal(i) ) < 0 ) //
+            if( result && _is_vector_outside( L_sphere, triangle, i ) )
             {
                 // if there is a collision, and sphere is moving inside, not outside
                 if( !any_result || distance(best_result_point, segment_start) > distance(result_point, segment_start) )
@@ -334,7 +341,7 @@ namespace Collisions
         for( unsigned i = 0; i < 3; ++i )
         {
             result = sphere_and_point_collision(segment_start, segment_end, sphere_radius, triangle[i] );
-            if( result )
+            if( result &&  _is_vector_outside( L_sphere, triangle, i ) && _is_vector_outside( L_sphere, triangle, (i+2)%3 ) )
             {
                 if( !any_result || distance(best_result_point, segment_start) > distance(triangle[i], segment_start) )
                 {

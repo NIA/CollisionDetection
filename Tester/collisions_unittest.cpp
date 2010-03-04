@@ -520,10 +520,16 @@ TEST(SphereAndTriangleTest, OutsideOnly)
     Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
     Point A(2, 2*R,0);
     Point B(2,-3*R,0);
+    
+    Point C(2, 4-2*R, 0);
+    Point D(2, 4+2*R, 0);
 
     Point result;
     
     EXPECT_TRUE(  sphere_and_triangle_collision( B, A, R, triangle, result ) );
     EXPECT_FALSE( sphere_and_triangle_collision( A, B, R, triangle, result ) );
+    
+    EXPECT_TRUE(  sphere_and_triangle_collision( D, C, R, triangle, result ) );
+    EXPECT_FALSE( sphere_and_triangle_collision( C, D, R, triangle, result ) );
 }
 
