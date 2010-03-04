@@ -267,12 +267,22 @@ TEST(TriangleTest, Normal)
     EXPECT_EQ( expected_normal, triangle.normal() );
 }
 
+TEST(TriangleTest, SideNormal)
+{
+    Triangle triangle( Point(0,0,0), Point(1,2,0), Point(3,0,0) );
+
+    EXPECT_EQ( Vector(-2,1,0).normalized(), triangle.side_outer_normal(0) );
+    EXPECT_EQ( Vector(1, 1,0).normalized(), triangle.side_outer_normal(1) );
+    EXPECT_EQ( Vector(0,-1,0).normalized(), triangle.side_outer_normal(2) );
+}
+
 TEST(TriangleTest, BlackTest)
 {
     Point A(1,2,3), B(2,3,4), C(3,4,5);
     Triangle triangle(A, B, C);
     
-    EXPECT_THROW( triangle[45], OutOfBoundsError );
+    EXPECT_THROW( triangle[3], OutOfBoundsError );
+    EXPECT_THROW( triangle.side_outer_normal(3), OutOfBoundsError );
     EXPECT_THROW( triangle.normal(), DegeneratedTriangleError );
 }
 

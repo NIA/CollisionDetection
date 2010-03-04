@@ -524,7 +524,6 @@ TEST(SphereAndTriangleTest, OutsideOnly)
     Point result;
     
     EXPECT_TRUE(  sphere_and_triangle_collision( B, A, R, triangle, result ) );
-    // FIXME: check whether it is touching side/vertex while flying inside, not outside
     EXPECT_FALSE( sphere_and_triangle_collision( A, B, R, triangle, result ) );
 }
 

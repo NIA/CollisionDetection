@@ -177,19 +177,26 @@ namespace Collisions
         }
         Point & operator[](unsigned index)
         {
-            check( index <= 3, OutOfBoundsError() );
+            check( index <= 2, OutOfBoundsError() );
             return vertices[index];
         }
         Point const & operator[](unsigned index) const
         {
-            check( index <= 3, OutOfBoundsError() );
+            check( index <= 2, OutOfBoundsError() );
             return vertices[index];
         }
         Vector normal() const
         {
-            Vector normal = ( (vertices[2] - vertices[0]) & (vertices[1] - vertices[0]) ).normalized(); // normal is calculated as vector product of two sides
+            const Vector normal = ( (vertices[2] - vertices[0]) & (vertices[1] - vertices[0]) ).normalized(); // normal is calculated as vector product of two sides
             check( !normal.is_zero(), DegeneratedTriangleError() );
             return normal;
+        }
+        // returns outer normal for the side, containing vertices #index and #index+1
+        Vector side_outer_normal(unsigned index) const
+        {
+            check( index <= 2, OutOfBoundsError() );
+            const Vector side = vertices[index] - vertices[ (index+1)%3 ];
+            return ( side & normal() ).normalized();
         }
     };
 };

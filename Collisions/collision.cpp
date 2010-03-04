@@ -270,7 +270,7 @@ namespace Collisions
             assert( !normal.is_zero() );
             Point sphere_center = result + perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision
 
-            // now check that this collision point is inside the segment
+            // now check that sphere center at the moment of collision is inside the segment
             if( !is_point_between( sphere_center, sphere_segment_start, sphere_segment_end ) )
             {
                 return false;
@@ -311,9 +311,10 @@ namespace Collisions
         for( unsigned i = 0; i < 3; ++i )
         {
             result = sphere_and_segment_collision(segment_start, segment_end, sphere_radius,
-                                                  triangle[ (i+1)%3 ], triangle[ (i+2)%3 ], result_point );
-            if( result )
+                                                  triangle[i], triangle[ (i+1)%3 ], result_point );
+            if( result && ( (segment_end-segment_start)*triangle.side_outer_normal(i) ) < 0 ) //
             {
+                // if there is a collision, and sphere is moving inside, not outside
                 if( !any_result || distance(best_result_point, segment_start) > distance(result_point, segment_start) )
                 {
                     // if no best result, or if the best result is worst than current
