@@ -50,7 +50,7 @@ namespace Collisions
     {
         check_nonzero_vector( line_vector1, InvalidLineVectorError() );
         check_nonzero_vector( line_vector2, InvalidLineVectorError() );
-        Vector h = line_vector1 & line_vector2; // perpendicular
+        Vector h = cross_product( line_vector1, line_vector2 ); // perpendicular
         double dst;
         if( h.is_zero() )
         {
@@ -80,7 +80,7 @@ namespace Collisions
         const Point &L2 = line_vector2;
         double t1, t2;
 
-        double cross_product_sqared_norm = (L1 & L2).sqared_norm();
+        double cross_product_sqared_norm = cross_product(L1, L2).sqared_norm();
         
         if( equal( 0.0, cross_product_sqared_norm ) )
         {
@@ -271,7 +271,7 @@ namespace Collisions
                 Vector L_segment_other = (result - nearest_on_segment).normalized();
                 assert( L_segment_other == L_segment || L_segment_other == -L_segment );
                 // calculating normal, aimed from L_segment to L_sphere as double cross-product. L_segment_other is used instead of L_segment in order to avoid sign mess
-                normal = ( ( L_sphere & L_segment_other ) & L_segment_other ).normalized();
+                normal = cross_product( cross_product( L_sphere, L_segment_other ), L_segment_other ).normalized();
             }
             assert( !normal.is_zero() );
             Point sphere_center = result + perpendicular_length*normal + (nearest_on_sphere_way - nearest_on_segment); // sphere center is here at the moment of collision

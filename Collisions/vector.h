@@ -92,11 +92,6 @@ namespace Collisions
         {
             return x*another.x + y*another.y + z*another.z;
         }
-        // cross product
-        Vector operator&(const Vector &another) const
-        {
-            return Vector( y*another.z - z*another.y, z*another.x - x*another.z, x*another.y - y*another.x );
-        }
         
         // methods
         double sqared_norm() const
@@ -125,10 +120,7 @@ namespace Collisions
         {
             return equal(x, 0) && equal(y, 0) && equal(z, 0);
         }
-        bool is_collinear_to(const Vector &another) const
-        {
-            return ((*this) & another).is_zero();
-        }
+        bool is_collinear_to(const Vector &another) const;
         bool is_orthogonal_to(const Vector &another) const
         {
             return equal( 0, (*this)*another );
@@ -151,6 +143,15 @@ namespace Collisions
     inline double distance(const Point &A, const Point &B)
     {
         return (A - B).norm();
+    }
+    inline Vector cross_product(const Vector &a, const Vector &b)
+    {
+        return Vector( a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x );
+    }
+
+    inline bool Vector::is_collinear_to(const Vector &another) const
+    {
+        return cross_product(*this, another).is_zero();
     }
 
     // error checking functions
@@ -187,7 +188,7 @@ namespace Collisions
         }
         Vector normal() const
         {
-            const Vector normal = ( (vertices[2] - vertices[0]) & (vertices[1] - vertices[0]) ).normalized(); // normal is calculated as vector product of two sides
+            const Vector normal = cross_product( vertices[2] - vertices[0], vertices[1] - vertices[0] ).normalized(); // normal is calculated as vector product of two sides
             check( !normal.is_zero(), DegeneratedTriangleError() );
             return normal;
         }
@@ -196,7 +197,7 @@ namespace Collisions
         {
             check( index <= 2, OutOfBoundsError() );
             const Vector side = vertices[index] - vertices[ (index+1)%3 ];
-            return ( side & normal() ).normalized();
+            return cross_product( side, normal() ).normalized();
         }
     };
 };

@@ -205,11 +205,11 @@ TEST(PointTest, VectorMultiply)
     v3.normalize();
     v3 *= v1.norm()*v2.norm()*sin( acos( v1.normalized()*v2.normalized()) ); // area of parallelogram
 
-    EXPECT_EQ( ez, ex & ey );
-    EXPECT_EQ( -ez, ey & ex );
-    EXPECT_EQ( ZERO, ex & ex );
+    EXPECT_EQ( ez, cross_product(ex, ey) );
+    EXPECT_EQ( -ez, cross_product(ey, ex) );
+    EXPECT_EQ( ZERO, cross_product(ex, ex) );
 
-    EXPECT_EQ( v3, v1 & v2 );
+    EXPECT_EQ( v3, cross_product(v1, v2) );
 }
 
 TEST(PointTest, IsZero)
