@@ -3,4 +3,5 @@ project( COLLISIONS )
 
 add_subdirectory( Collisions )
 add_subdirectory( Tester )
+add_subdirectory( GoogleTestFramework )
 

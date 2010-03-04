@@ -3,7 +3,7 @@ link_directories( ${COLLISIONS_BINARY_DIR}/Collisions )
 
 # gtest include files:
 include_directories( ../GoogleTestFramework/include )
-link_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../_Lib )
+link_directories( ${COLLISIONS_BINARY_DIR}/GoogleTestFramework )
 
 set( TESTER_SRCS collisions_unittest.cpp helpers_unittest.cpp vector_unittest.cpp float_unittest )
 
