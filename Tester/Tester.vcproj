@@ -189,14 +189,10 @@
 				>
 			</File>
 			<File
-				RelativePath=".\point_unittest.cpp"
+				RelativePath=".\vector_unittest.cpp"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\GoogleTestFramework\src\gtest_main.cc"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
