@@ -19,10 +19,10 @@ namespace Collisions
     {
         check_nonzero_vector( line_vector, InvalidLineVectorError() );
 
-        const double t = line_vector*( point - line_point) / line_vector.sqared_norm();
+        const double t = line_vector*(point - line_point) / line_vector.sqared_norm();
         const Point perpendicular_base = line_point + t*line_vector;
         nearest_point = perpendicular_base;
-        return distance(point, perpendicular_base);
+        return distance( point, perpendicular_base );
     }
 
     double distance_between_point_and_segment(const Point &point, const Point &segment_start, const Point &segment_end)
@@ -33,7 +33,7 @@ namespace Collisions
         double dst = distance_between_point_and_line( point, segment_start, segment_end - segment_start, nearest );
         if( ! is_point_between( nearest, segment_start, segment_end ) )
         {
-            dst = std::min( distance(point, segment_start), distance(point, segment_end) );
+            dst = std::min( distance( point, segment_start ), distance( point, segment_end ) );
         }
         return dst;
     }
@@ -42,7 +42,7 @@ namespace Collisions
     // returns the point on first line, nearest to line_point2
     {
         const Vector L1 = line_vector.normalized();
-        return line_point1 + ((line_point2 - line_point1)*L1)*L1; // A1 plus proection of A2-A1 onto L1
+        return line_point1 + ( (line_point2 - line_point1)*L1 )*L1; // A1 plus proection of A2-A1 onto L1
     }
 
     double distance_between_two_lines(const Point &line_point1, const Vector &line_vector1,
@@ -55,7 +55,7 @@ namespace Collisions
         if( h.is_zero() )
         {
             // lines are parallel
-            Point H = _nearest_on_parallels( line_point1, line_point2, line_vector1 );
+            const Point H = _nearest_on_parallels( line_point1, line_point2, line_vector1 );
             dst = distance( H, line_point2 );
         }
         else
@@ -77,9 +77,8 @@ namespace Collisions
         const Point &A2 = line_point2;
         const Point &L1 = line_vector1;
         const Point &L2 = line_vector2;
-        double t1, t2;
 
-        const double cross_product_sqared_norm = cross_product(L1, L2).sqared_norm();
+        const double cross_product_sqared_norm = cross_product( L1, L2 ).sqared_norm();
         
         if( equal( 0.0, cross_product_sqared_norm ) )
         {
@@ -92,14 +91,14 @@ namespace Collisions
             // lines are not parallel
 
             // MATH CHEAT: linear system solved by wxMaxima (see nearest_points.wxm)
-            t1 = ( ((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y
-                 + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y
-                 + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x
-                 ) / cross_product_sqared_norm;
-            t2 = ( (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z
-                 + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y
-                 + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x
-                 ) / cross_product_sqared_norm;
+            const double t1 = ( ((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y
+                              + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y
+                              + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x
+                              ) / cross_product_sqared_norm;
+            const double t2 = ( (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z
+                              + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y
+                              + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x
+                              ) / cross_product_sqared_norm;
             // END MATH CHEAT
             result1 = A1 + t1*L1;
             result2 = A2 + t2*L2;
@@ -109,7 +108,7 @@ namespace Collisions
     bool is_point_inside_triangle(const Point &point, const Triangle &triangle)
     {
         // TODO: check whether the point is in the same plane as triangle.
-        // By now this function returns true if _proection_ of point is inside triangle
+        // By now this function returns true if the _projection_ of the point is inside triangle
         const Vector u = triangle[1] - triangle[0];
         const Vector v = triangle[2] - triangle[0];
         const Vector r = point - triangle[0];
@@ -121,7 +120,7 @@ namespace Collisions
         const double ru = ( (r*u)*(v*v) - (u*v)*(r*v) ) / determinant;
         const double rv = ( (u*u)*(r*v) - (r*u)*(u*v) ) / determinant;
 
-        return greater_or_equal(ru, 0) && greater_or_equal(rv, 0) && less_or_equal(ru + rv, 1);
+        return greater_or_equal( ru, 0 ) && greater_or_equal( rv, 0 ) && less_or_equal( ru + rv, 1 );
     }
 
     // Returns base of perpendicular, dropped from first line to second, with given length.
@@ -135,12 +134,12 @@ namespace Collisions
         const Vector L2 = line_vector2.normalized();
         const double cosine = L1*L2;
         const double angle = acos(cosine);
-        if( equal(0, cosine) )
+        if( equal( 0, cosine ) )
         {
             // L1 is ortogonal to L2
             return crosspoint;
         }
-        else if( equal(0, sin(angle)) )
+        else if( equal( 0, sin(angle) ) )
         {
             // L1 is parallel to L2
             throw ParallelLinesError();
@@ -153,7 +152,7 @@ namespace Collisions
     }
 
     // if vector pointing outside triangle, while crossing given side
-    bool _is_vector_outside(Vector vector, Triangle triangle, unsigned side)
+    inline bool _is_vector_outside(Vector vector, Triangle triangle, unsigned side)
     {
         return vector*triangle.side_outer_normal(side) < 0;
     }
@@ -170,7 +169,7 @@ namespace Collisions
         check_nonzero_vector( plane_normal, InvalidNormalError() );
 
         const double denominator = line_vector * plane_normal;
-        if( equal(denominator, 0) )
+        if( equal( 0, denominator ) )
         {
             return false;
         }
@@ -190,11 +189,11 @@ namespace Collisions
         check_nonzero_vector( plane_normal, InvalidNormalError() );
 
         Point point;
-        bool result = line_and_plane_collision(segment_start, segment_end - segment_start,
-                                               plane_point, plane_normal, point);
+        bool result = line_and_plane_collision( segment_start, segment_end - segment_start,
+                                                plane_point, plane_normal, point );
         if( result )
         {
-            result = is_point_between(point, segment_start, segment_end);
+            result = is_point_between( point, segment_start, segment_end );
             if( result )
             {
                 collision_point = point;
@@ -211,11 +210,11 @@ namespace Collisions
         check_nonzero_vector( plane_normal, InvalidNormalError() );
 
         const Vector line_vector = segment_end - segment_start;
+        const Vector shift = sign( line_vector*plane_normal )*sphere_radius*plane_normal; // shift trajectory up or down depending on whether collision is lower or upper
         Point point;
-        const Vector shift = sign(line_vector*plane_normal)*sphere_radius*plane_normal; // lower or upper collision
-        const bool result = segment_and_plane_collision(segment_start + shift,
-                                                  segment_end   + shift,
-                                                  plane_point, plane_normal, point);
+        const bool result = segment_and_plane_collision( segment_start + shift,
+                                                         segment_end   + shift,
+                                                         plane_point, plane_normal, point );
         if( result )
         {
             collision_point = point;
@@ -308,7 +307,7 @@ namespace Collisions
         if( result )
         {
             // 1.1) is touching point really inside triangle
-            if( is_point_inside_triangle(result_point, triangle) )
+            if( is_point_inside_triangle( result_point, triangle ) )
             {
                 collision_point = result_point;
                 return true;
@@ -320,12 +319,12 @@ namespace Collisions
         Point best_result_point; // best point is the point, nearest to the start of sphere's way
         for( unsigned i = 0; i < 3; ++i )
         {
-            result = sphere_and_segment_collision(segment_start, segment_end, sphere_radius,
-                                                  triangle[i], triangle[ (i+1)%3 ], result_point );
+            result = sphere_and_segment_collision( segment_start, segment_end, sphere_radius,
+                                                   triangle[i], triangle[ (i+1)%3 ], result_point );
             if( result && _is_vector_outside( L_sphere, triangle, i ) )
             {
                 // if there is a collision, and sphere is moving inside, not outside
-                if( !any_result || distance(best_result_point, segment_start) > distance(result_point, segment_start) )
+                if( !any_result || distance( best_result_point, segment_start ) > distance( result_point, segment_start ) )
                 {
                     // if no best result, or if the best result is worst than current
                     best_result_point = result_point;
@@ -343,10 +342,10 @@ namespace Collisions
         any_result = false;
         for( unsigned i = 0; i < 3; ++i )
         {
-            result = sphere_and_point_collision(segment_start, segment_end, sphere_radius, triangle[i] );
+            result = sphere_and_point_collision( segment_start, segment_end, sphere_radius, triangle[i] );
             if( result &&  _is_vector_outside( L_sphere, triangle, i ) && _is_vector_outside( L_sphere, triangle, (i+2)%3 ) )
             {
-                if( !any_result || distance(best_result_point, segment_start) > distance(triangle[i], segment_start) )
+                if( !any_result || distance( best_result_point, segment_start ) > distance( triangle[i], segment_start ) )
                 {
                     // if no best result, or if the best result is worst than current
                     best_result_point = triangle[i];

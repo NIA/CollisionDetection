@@ -14,7 +14,7 @@ TEST(PointTest, DefaultConstruct)
 
 TEST(PointTest, Construct)
 {
-    const Point p( 2, 3, 4.8 );
+    const Point p(2, 3, 4.8);
     EXPECT_EQ( 2.0, p.x );
     EXPECT_EQ( 3.0, p.y );
     EXPECT_EQ( 4.8, p.z );
@@ -22,7 +22,7 @@ TEST(PointTest, Construct)
 
 TEST(PointTest, CopyConstruct)
 {
-    const Point p( 2, 3, 4.8 );
+    const Point p(2, 3, 4.8);
     const Point p1( p );
     const Point p2 = p;
     EXPECT_EQ( p, p1 );
@@ -31,9 +31,9 @@ TEST(PointTest, CopyConstruct)
 
 TEST(PointTest, Equal)
 {
-    const Point p1a( 2, 3, 4.8 );
-    const Point p1b( 2, 3, 4.8 );
-    const Point p2( 1, 5, 3.1 );
+    const Point p1a(2, 3, 4.8);
+    const Point p1b(2, 3, 4.8);
+    const Point p2(1, 5, 3.1);
     EXPECT_TRUE( p1a == p1a );
     EXPECT_TRUE( p1a == p1b );
     EXPECT_FALSE( p1a == p2 );
@@ -41,9 +41,9 @@ TEST(PointTest, Equal)
 
 TEST(PointTest, NotEqual)
 {
-    const Point p1a( 2, 3, 4.8 );
+    const Point p1a(2, 3, 4.8);
     const Point p1b = p1a;
-    const Point p2( 1, 5, 3.1 );
+    const Point p2(1, 5, 3.1);
     EXPECT_FALSE( p1a != p1a );
     EXPECT_FALSE( p1a != p1b );
     EXPECT_TRUE( p1a != p2 );
@@ -51,21 +51,21 @@ TEST(PointTest, NotEqual)
 
 TEST(PointTest, UnaryPlus)
 {
-    const Point p( 2, 3, 4.8 );
+    const Point p(2, 3, 4.8);
     EXPECT_EQ( p, +p );
 }
 
 TEST(PointTest, UnaryMinus)
 {
-    const Point p( 2, 3, 4.8 );
-    const Point p1( -2, -3, -4.8 );
+    const Point p(2, 3, 4.8);
+    const Point p1(-2, -3, -4.8);
     EXPECT_EQ( p1, -p );
 }
 
 TEST(PointTest, AddAssign)
 {
-    Point p1( 2, 3, 4.8 );
-    const Point p2( 1, -8, 1.1 );
+    Point p1(2, 3, 4.8);
+    const Point p2(1, -8, 1.1);
     const Point p3( p1.x + p2.x, p1.y + p2.y, p1.z + p2.z );
     EXPECT_EQ( &p1, &(p1 += p2) ); // It actually returns first argument
 
@@ -74,8 +74,8 @@ TEST(PointTest, AddAssign)
 
 TEST(PointTest, SubAssign)
 {
-    Point p1( 2, 3, 4.8 );
-    const Point p2( 1, -8, 1.1 );
+    Point p1(2, 3, 4.8);
+    const Point p2(1, -8, 1.1);
     const Point p3( p1.x - p2.x, p1.y - p2.y, p1.z - p2.z );
     EXPECT_EQ( &p1, &(p1 -= p2) ); // It actually returns first argument
 
@@ -84,8 +84,8 @@ TEST(PointTest, SubAssign)
 
 TEST(PointTest, Add)
 {
-    const Point p1( 2, 3, 4.8 );
-    const Point p2( 1, -8, 1.1 );
+    const Point p1(2, 3, 4.8);
+    const Point p2(1, -8, 1.1);
     const Point p3( p1.x + p2.x, p1.y + p2.y, p1.z + p2.z );
 
     EXPECT_EQ( p3, p1 + p2 );
@@ -93,8 +93,8 @@ TEST(PointTest, Add)
 
 TEST(PointTest, Subtract)
 {
-    const Point p1( 2, 3, 4.8 );
-    const Point p2( 1, -8, 1.1 );
+    const Point p1(2, 3, 4.8);
+    const Point p2(1, -8, 1.1);
     const Point p3( p1.x - p2.x, p1.y - p2.y, p1.z - p2.z );
 
     EXPECT_EQ( p3, p1 - p2 );
@@ -102,7 +102,7 @@ TEST(PointTest, Subtract)
 
 TEST(PointTest, MulAssign)
 {
-    Point p1( 2, 3, 4.8 );
+    Point p1(2, 3, 4.8);
     const double d = 2.3;
     const Point p3( p1.x*d, p1.y*d, p1.z*d );
     EXPECT_EQ( &p1, &(p1 *= d) ); // It actually returns first argument
@@ -112,7 +112,7 @@ TEST(PointTest, MulAssign)
 
 TEST(PointTest, DivAssign)
 {
-    Point p1( 2, 3, 4.8 );
+    Point p1(2, 3, 4.8);
     const double d = 2.3;
     const Point p3( p1.x/d, p1.y/d, p1.z/d );
     EXPECT_EQ( &p1, &(p1 /= d) ); // It actually returns first argument
@@ -122,7 +122,7 @@ TEST(PointTest, DivAssign)
 
 TEST(PointTest, Multiply)
 {
-    const Point p1( 2, 3, 4.8 );
+    const Point p1(2, 3, 4.8);
     const double d = 2.3;
     const Point p3( p1.x*d, p1.y*d, p1.z*d );
 
@@ -132,7 +132,7 @@ TEST(PointTest, Multiply)
 
 TEST(PointTest, Divide)
 {
-    const Point p1( 2, 3, 4.8 );
+    const Point p1(2, 3, 4.8);
     const double d = 2.3;
     const Point p3( p1.x/d, p1.y/d, p1.z/d );
 
@@ -189,7 +189,7 @@ TEST(PointTest, Distance)
 {
     const Point p1(1, 2, -3);
     const Point p2(4, -2, -3);
-    EXPECT_DOUBLE_EQ( 5, distance(p1, p2) );
+    EXPECT_DOUBLE_EQ( 5, distance( p1, p2 ) );
 }
 
 TEST(PointTest, VectorMultiply)
@@ -205,11 +205,11 @@ TEST(PointTest, VectorMultiply)
     v3.normalize();
     v3 *= v1.norm()*v2.norm()*sin( acos( v1.normalized()*v2.normalized()) ); // area of parallelogram
 
-    EXPECT_EQ( ez, cross_product(ex, ey) );
-    EXPECT_EQ( -ez, cross_product(ey, ex) );
-    EXPECT_EQ( ZERO, cross_product(ex, ex) );
+    EXPECT_EQ( ez, cross_product( ex, ey ) );
+    EXPECT_EQ( -ez, cross_product( ey, ex ) );
+    EXPECT_EQ( ZERO, cross_product( ex, ex ) );
 
-    EXPECT_EQ( v3, cross_product(v1, v2) );
+    EXPECT_EQ( v3, cross_product( v1, v2 ) );
 }
 
 TEST(PointTest, IsZero)

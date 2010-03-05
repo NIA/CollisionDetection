@@ -32,10 +32,10 @@ namespace Collisions
     //
     inline bool equal(double a, double b, long long max_ulps = DEFAULT_MAX_ULPS, double epsilon = DEFAULT_EPSILON)
     {
-        assert(sizeof(long long) == sizeof(double));
+        assert( sizeof(long long) == sizeof(double) );
         // Make sure max_ulps is non-negative and small enough that the
         // default NAN won't compare as equal to anything.
-        check(max_ulps > 0 && max_ulps < 4 * 1024 * 1024, RuntimeError("invalid value of max_ulps")); // this is maximum ULPS for floats, for doubles it might be greater, but for what?
+        check( max_ulps > 0 && max_ulps < 4 * 1024 * 1024, RuntimeError("invalid value of max_ulps") ); // this is maximum ULPS for floats, for doubles it might be greater, but for what?
         
         // epsilon-comparison: needed near zero
         if( fabs(a - b) <= epsilon )
@@ -67,12 +67,12 @@ namespace Collisions
 
     inline bool less_or_equal(double a, double b, long long max_ulps = DEFAULT_MAX_ULPS, double epsilon = DEFAULT_EPSILON)
     {
-        return (a < b) || equal(a, b, max_ulps, epsilon);
+        return (a < b) || equal( a, b, max_ulps, epsilon );
     }
 
     inline bool greater_or_equal(double a, double b, long long max_ulps = DEFAULT_MAX_ULPS, double epsilon = DEFAULT_EPSILON)
     {
-        return (a > b) || equal(a, b, max_ulps, epsilon);
+        return (a > b) || equal( a, b, max_ulps, epsilon );
     }
     inline int sign(double x)
     {

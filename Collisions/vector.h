@@ -80,7 +80,7 @@ namespace Collisions
 
         bool operator==(const Vector &another) const
         {
-            return equal(x, another.x) && equal(y, another.y) && equal(z, another.z);
+            return equal( x, another.x ) && equal( y, another.y ) && equal( z, another.z );
         }
         bool operator!=(const Vector &another) const
         {
@@ -118,7 +118,7 @@ namespace Collisions
 
         bool is_zero() const
         {
-            return equal(x, 0) && equal(y, 0) && equal(z, 0);
+            return equal( 0, x ) && equal( 0, y ) && equal( 0, z );
         }
         bool is_collinear_to(const Vector &another) const;
         bool is_orthogonal_to(const Vector &another) const
@@ -151,7 +151,7 @@ namespace Collisions
 
     inline bool Vector::is_collinear_to(const Vector &another) const
     {
-        return cross_product(*this, another).is_zero();
+        return cross_product( *this, another ).is_zero();
     }
 
     // error checking functions

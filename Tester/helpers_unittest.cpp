@@ -12,12 +12,12 @@ TEST(IsPointBetweenTest, OnSingleLine)
     const Point p2(1, 1, 2);
     const Point p3(2, 2, 4);
 
-    EXPECT_TRUE(  is_point_between(p2, p1, p3) );
-    EXPECT_FALSE( is_point_between(p1, p2, p3) );
-    EXPECT_FALSE( is_point_between(p3, p2, p1) );
+    EXPECT_TRUE(  is_point_between( p2, p1, p3 ) );
+    EXPECT_FALSE( is_point_between( p1, p2, p3 ) );
+    EXPECT_FALSE( is_point_between( p3, p2, p1 ) );
     
-    EXPECT_TRUE(  is_point_between(p1, p1, p2) );
-    EXPECT_TRUE(  is_point_between(p2, p1, p2) );
+    EXPECT_TRUE(  is_point_between( p1, p1, p2 ) );
+    EXPECT_TRUE(  is_point_between( p2, p1, p2 ) );
 }
 
 // Distance between point and line tests
@@ -238,7 +238,7 @@ TEST(NearestPointsOnLinesTest, PerpendicularTrivial)
     const Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
 
     Point result1, result2;
-    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+    nearest_points_on_lines( A1, L1, A2, L2, result1, result2 );
 
     EXPECT_EQ( Point(0, 0, 0), result1 );
     EXPECT_EQ( Point(0, 0, 2.3), result2 );
@@ -253,7 +253,7 @@ TEST(NearestPointsOnLinesTest, NonParallelArbitrary)
     const Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
 
     Point result1, result2;
-    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+    nearest_points_on_lines( A1, L1, A2, L2, result1, result2 );
 
     EXPECT_EQ( A1, result1 );
     EXPECT_EQ( A2, result2 );
@@ -268,9 +268,9 @@ TEST(NearestPointsOnLinesTest, ParallelTrivial)
     const Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
 
     Point result1, result2, temp;
-    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+    nearest_points_on_lines( A1, L1, A2, L2, result1, result2 );
 
-    EXPECT_DOUBLE_EQ( 2.3, distance(result1, result2) );                                    // check if they are really nearest
+    EXPECT_DOUBLE_EQ( 2.3, distance( result1, result2 ) );                                  // check if they are really nearest
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
 }
@@ -287,9 +287,9 @@ TEST(NearestPointsOnLinesTest, ParallelArbitrary)
     const Point A2 = A2N + 8*L2;
 
     Point result1, result2, temp;
-    nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
+    nearest_points_on_lines( A1, L1, A2, L2, result1, result2 );
 
-    EXPECT_DOUBLE_EQ( 5.0, distance(result1, result2) );                                    // check if they are really nearest
+    EXPECT_DOUBLE_EQ( 5.0, distance( result1, result2 ) );                                  // check if they are really nearest
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result1, A1, L1, temp ) ) );  // check if first is on first line
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_line( result2, A2, L2, temp ) ) );  // check if second is on second line
 }
