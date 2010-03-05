@@ -58,7 +58,7 @@ namespace Collisions
         if (b_int < 0)
             b_int = minus_null_int - b_int;
        
-        long long int_diff = llabs(a_int - b_int); // TODO: what to do in VS?
+        long long int_diff = llabs(a_int - b_int);
         if (int_diff <= max_ulps)
             return true;
 

@@ -7,11 +7,11 @@ using namespace Collisions;
 
 TEST(LineAndPlaneTest, Parallel)
 {
-    Point A(1, 1, 1);
-    Vector L(1, 0, 0);
+    const Point A(1, 1, 1);
+    const Vector L(1, 0, 0);
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
     
     Point result;
 
@@ -20,13 +20,13 @@ TEST(LineAndPlaneTest, Parallel)
 
 TEST(LineAndPlaneTest, PerpendicularTrivial)
 {
-    Point A(1, 1, 1);
-    Vector L(0, 0, -2);
+    const Point A(1, 1, 1);
+    const Vector L(0, 0, -2);
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
 
-    Point A1(1, 1, 0); // projection of A
+    const Point A1(1, 1, 0); // projection of A
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
@@ -35,13 +35,13 @@ TEST(LineAndPlaneTest, PerpendicularTrivial)
 
 TEST(LineAndPlaneTest, PerpendicularSimple)
 {
-    Point A(0, -0.5, 0);
-    Vector L(1, 1, 0);
+    const Point A(0, -0.5, 0);
+    const Vector L(1, 1, 0);
 
-    Point P0(0, 1, 0);
-    Vector N(1, 1, 0);
+    const Point P0(0, 1, 0);
+    const Vector N(1, 1, 0);
 
-    Point A1(0.75, 0.25, 0); // projection of A
+    const Point A1(0.75, 0.25, 0); // projection of A
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
@@ -50,13 +50,13 @@ TEST(LineAndPlaneTest, PerpendicularSimple)
 
 TEST(LineAndPlaneTest, Arbitrary)
 {
-    Point A(0, 1, -2); // line, going through A1(1, 0, 0)
-    Vector L(1, -1, 2);
+    const Point A(0, 1, -2); // line, going through A1(1, 0, 0)
+    const Vector L(1, -1, 2);
 
-    Point P0(0, 1, 0); // simplex
-    Vector N(1, 1, 1);
+    const Point P0(0, 1, 0); // simplex
+    const Vector N(1, 1, 1);
 
-    Point A1(1, 0, 0);
+    const Point A1(1, 0, 0);
     Point result;
 
     EXPECT_TRUE( line_and_plane_collision( A, L, P0, N, result ) );
@@ -65,10 +65,10 @@ TEST(LineAndPlaneTest, Arbitrary)
 
 TEST(LineAndPlaneTest, BlackTest)
 {
-    Point A(1, 1, 1);
-    Vector L(0, 0, -2);
+    const Point A(1, 1, 1);
+    const Vector L(0, 0, -2);
 
-    Vector ZERO(0, 0, 0);
+    const Vector ZERO(0, 0, 0);
     Point result;
 
     EXPECT_THROW( line_and_plane_collision( A, ZERO, A, L, result ), InvalidLineVectorError );
@@ -79,11 +79,11 @@ TEST(LineAndPlaneTest, BlackTest)
 
 TEST(SegmentAndPlaneTest, Parallel)
 {
-    Point A(1, 1, 1);
-    Point B(3, 1, 1);
+    const Point A(1, 1, 1);
+    const Point B(3, 1, 1);
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
     
     Point result;
 
@@ -92,13 +92,13 @@ TEST(SegmentAndPlaneTest, Parallel)
 
 TEST(SegmentAndPlaneTest, PerpendicularTrivial)
 {
-    Point A(1, 1, 1);  // upper than plane
-    Point B(1, 1, 0);  // on the plane
-    Point C(1, 1, -1); // lower
-    Point D(1, 1, -2); // lower
+    const Point A(1, 1, 1);  // upper than plane
+    const Point B(1, 1, 0);  // on the plane
+    const Point C(1, 1, -1); // lower
+    const Point D(1, 1, -2); // lower
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
 
     Point result;
 
@@ -113,13 +113,13 @@ TEST(SegmentAndPlaneTest, PerpendicularTrivial)
 
 TEST(SegmentAndPlaneTest, Arbitrary)
 {
-    Point A(0,  1, -2); // line, going through B(1, 0, 0)
-    Point B(1,  0,  0);
-    Point C(2, -1,  2);
-    Point D(4, -3,  6);
+    const Point A(0,  1, -2); // line, going through B(1, 0, 0)
+    const Point B(1,  0,  0);
+    const Point C(2, -1,  2);
+    const Point D(4, -3,  6);
 
-    Point P0(0, 1, 0); // simplex
-    Vector N(1, 1, 1);
+    const Point P0(0, 1, 0); // simplex
+    const Vector N(1, 1, 1);
 
     Point result;
 
@@ -134,10 +134,10 @@ TEST(SegmentAndPlaneTest, Arbitrary)
 
 TEST(SegmentAndPlaneTest, BlackTest)
 {
-    Point A(1, 1, 1);
-    Point B(1, 1, 2);
-    Vector N(0, 0, 1);
-    Vector ZERO(0, 0, 0);
+    const Point A(1, 1, 1);
+    const Point B(1, 1, 2);
+    const Vector N(0, 0, 1);
+    const Vector ZERO(0, 0, 0);
     
     Point result;
 
@@ -149,11 +149,11 @@ TEST(SegmentAndPlaneTest, BlackTest)
 
 TEST(SphereAndPlaneTest, Parallel)
 {
-    Point A(1, 1, 1);
-    Point B(3, 1, 1);
+    const Point A(1, 1, 1);
+    const Point B(3, 1, 1);
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
     
     Point result;
 
@@ -164,17 +164,17 @@ TEST(SphereAndPlaneTest, Parallel)
 
 TEST(SphereAndPlaneTest, PerpendicularTrivial)
 {
-    double R = 0.25;
+    const double R = 0.25;
 
-    Point A(1, 1, 1);   // upper than plane
-    Point AA(1, 1, R);  // sphere is touching the plane, upper
-    Point B(1, 1, 0);   // on the plane
-    Point CC(1, 1, -R); // sphere is touching the plane, lower
-    Point C(1, 1, -1);  // lower
-    Point D(1, 1, -2);  // lower
+    const Point A(1, 1, 1);   // upper than plane
+    const Point AA(1, 1, R);  // sphere is touching the plane, upper
+    const Point B(1, 1, 0);   // on the plane
+    const Point CC(1, 1, -R); // sphere is touching the plane, lower
+    const Point C(1, 1, -1);  // lower
+    const Point D(1, 1, -2);  // lower
 
-    Point P0(0, 0, 0);
-    Vector N(0, 0, 1);
+    const Point P0(0, 0, 0);
+    const Vector N(0, 0, 1);
 
     Point result;
 
@@ -201,24 +201,24 @@ TEST(SphereAndPlaneTest, PerpendicularTrivial)
 
 TEST(SphereAndPlaneTest, Arbitrary)
 {
-    Point A(0,  1, -2); // line, going through B(1, 0, 0)
-    Point B(1,  0,  0); // (going up from under the plane)
-    Point C(2, -1,  2);
-    Point D(4, -3,  6);
-    Vector L(1, -1, 2);
+    const Point A(0,  1, -2); // line, going through B(1, 0, 0)
+    const Point B(1,  0,  0); // (going up from under the plane)
+    const Point C(2, -1,  2);
+    const Point D(4, -3,  6);
+    const Vector L(1, -1, 2);
 
-    Point P0(0, 1, 0); // simplex
+    const Point P0(0, 1, 0); // simplex
     Vector N(1, 1, 1);
 
     N.normalize();
 
-    double R = 0.1;
-    double t = ( R - (B - P0)*N )/( L*N );
-    Point AA(1 - t, t, -2*t);  // touching the plane, lower
-    Point CC(1 + t, -t,  2*t); // touching the plane, upper
+    const double R = 0.1;
+    const double t = ( R - (B - P0)*N )/( L*N );
+    const Point AA(1 - t, t, -2*t);  // touching the plane, lower
+    const Point CC(1 + t, -t,  2*t); // touching the plane, upper
 
-    Point T1 = AA + R*N; // lower touch point
-    Point T2 = CC - R*N; // upper touch point
+    const Point T1 = AA + R*N; // lower touch point
+    const Point T2 = CC - R*N; // upper touch point
 
     Point result;
 
@@ -245,12 +245,12 @@ TEST(SphereAndPlaneTest, Arbitrary)
 
 TEST(SphereAndPlaneTest, BlackTest)
 {
-    Point A(1, 1, 1);
-    Point B(3, 1, 1);
+    const Point A(1, 1, 1);
+    const Point B(3, 1, 1);
 
-    Vector N(0, 0, 1);
+    const Vector N(0, 0, 1);
 
-    Vector ZERO( 0, 0, 0 );
+    const Vector ZERO( 0, 0, 0 );
     
     Point result;
 
@@ -262,12 +262,12 @@ TEST(SphereAndPlaneTest, BlackTest)
 
 TEST(SphereAndPointTest, Trivial)
 {
-    Point P(2.5, 0, 0);
+    const Point P(2.5, 0, 0);
 
-    Point A(0, 0, 1.1);
-    Point C(0, 0, 0.1);
-    Point H(0, 0, 0); // nearest point
-    Point B(0, 0, -1.2);
+    const Point A(0, 0, 1.1);
+    const Point C(0, 0, 0.1);
+    const Point H(0, 0, 0); // nearest point
+    const Point B(0, 0, -1.2);
 
     EXPECT_TRUE(  sphere_and_point_collision( A, B, 2.6, P ) );
     EXPECT_FALSE( sphere_and_point_collision( A, B, 2.4, P ) );
@@ -283,16 +283,16 @@ TEST(SphereAndPointTest, Trivial)
 
 TEST(SphereAndPointTest, Arbitrary)
 {
-    Point P(0, 0, 0);
+    const Point P(0, 0, 0);
 
-    Point A(0, 0, 1);
-    Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
-    Point C(0.5, 0.5, 0);
-    Point B(1, 1, -1);
+    const Point A(0, 0, 1);
+    const Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
+    const Point C(0.5, 0.5, 0);
+    const Point B(1, 1, -1);
 
-    double dst = 1.0/sqrt(3.0);
-    double dst_more = dst*2;
-    double dst_less = dst/2;
+    const double dst = 1.0/sqrt(3.0);
+    const double dst_more = dst*2;
+    const double dst_less = dst/2;
 
     EXPECT_TRUE(  sphere_and_point_collision( A, B, dst_more, P ) );
     EXPECT_FALSE( sphere_and_point_collision( A, B, dst_less, P ) );
@@ -308,7 +308,7 @@ TEST(SphereAndPointTest, Arbitrary)
 
 TEST(SphereAndPointTest, BlackTest)
 {
-    Point A(1, 1, 1);
+    const Point A(1, 1, 1);
 
     EXPECT_THROW( sphere_and_point_collision( A, A, 0.5, A ), DegeneratedSegmentError );
 }
@@ -317,8 +317,8 @@ TEST(SphereAndPointTest, BlackTest)
 
 TEST( SphereAndSegmentTest, Parallel )
 {
-    Point P1(0,0,0), P2(2,0,0); // segment
-    Point A (0,1,0),  B(2,1,0); // sphere segment
+    const Point P1(0,0,0), P2(2,0,0); // segment
+    const Point A (0,1,0),  B(2,1,0); // sphere segment
     Point temp;
 
     EXPECT_FALSE( sphere_and_segment_collision( A, B, 0.5, P1, P2, temp ) );
@@ -328,17 +328,17 @@ TEST( SphereAndSegmentTest, Parallel )
 
 TEST(SphereAndSegmentTest, PerpendicularCrossingTrivial)
 {
-    Point P1(0,0,0), P2(2,0,0); // segment
-    Point P(0.2, 0, 0); // P P1 is a part of segment
+    const Point P1(0,0,0), P2(2,0,0); // segment
+    const Point P(0.2, 0, 0); // P P1 is a part of segment
 
-    double R = 0.25;
+    const double R = 0.25;
 
-    Point A (1,  R+1, 0);  // upper than segment
-    Point AA(1,    R, 0);  // sphere is touching the segment, upper
-    Point B (1,    0, 0);  // on the segment
-    Point CC(1,   -R, 0);  // sphere is touching the segment, lower
-    Point C (1, -R-1, 0);  // lower
-    Point D (1, -R-5, 0);  // even lower
+    const Point A (1,  R+1, 0);  // upper than segment
+    const Point AA(1,    R, 0);  // sphere is touching the segment, upper
+    const Point B (1,    0, 0);  // on the segment
+    const Point CC(1,   -R, 0);  // sphere is touching the segment, lower
+    const Point C (1, -R-1, 0);  // lower
+    const Point D (1, -R-5, 0);  // even lower
 
     Point result;
     
@@ -364,20 +364,20 @@ TEST(SphereAndSegmentTest, PerpendicularCrossingTrivial)
 
 TEST(SphereAndSegmentTest, PerpendicularTrivial)
 {
-    Point P1(0,0,0), P2(2,0,0); // segment
-    double R = 0.5;
-    double height = 0.3;
-    double d = sqrt( R*R - height*height );
+    const Point P1(0,0,0), P2(2,0,0); // segment
+    const double R = 0.5;
+    const double height = 0.3;
+    const double d = sqrt( R*R - height*height );
 
-    Point A (1,  d+1, height);  // upper than segment
-    Point AU(1, d+0.001, height);  // sphere almost touching the segment, but a little upper
-    Point AA(1,    d, height);  // sphere is touching the segment, upper
-    Point B (1,    0, height);  // over the segment
-    Point CC(1,   -d, height);  // sphere is touching the segment, lower
-    Point C (1, -d-1, height);  // lower
-    Point D (1, -d-5, height);  // even lower
+    const Point A (1,  d+1, height);  // upper than segment
+    const Point AU(1, d+0.001, height);  // sphere almost touching the segment, but a little upper
+    const Point AA(1,    d, height);  // sphere is touching the segment, upper
+    const Point B (1,    0, height);  // over the segment
+    const Point CC(1,   -d, height);  // sphere is touching the segment, lower
+    const Point C (1, -d-1, height);  // lower
+    const Point D (1, -d-5, height);  // even lower
     
-    Point H (1,    0,      0);  // touch point
+    const Point H (1,    0,      0);  // touch point
 
     Point result;
     
@@ -401,23 +401,23 @@ TEST(SphereAndSegmentTest, PerpendicularTrivial)
 
 TEST(SphereAndSegmentTest, Arbitrary)
 {
-    Point P1(0,0,0), P2(2,0,0); // segment
-    double R = 0.5;
-    double height = 0.3;
-    double d = sqrt( R*R - height*height );
+    const Point P1(0,0,0), P2(2,0,0); // segment
+    const double R = 0.5;
+    const double height = 0.3;
+    const double d = sqrt( R*R - height*height );
 
     // sphere flies by the line y=1-x; z=height
-    Point A ( 1-(d+1),  d+1, height);
-    double AUy = d + 0.001;
-    Point AU( 1 - AUy,  AUy, height);
-    Point AA(   1 - d,    d, height);
-    Point B (       1,    0, height);
-    Point CC(   1 + d,   -d, height);
-    Point C ( 1+(d+1), -d-1, height);
-    Point D ( 1+(d+5), -d-5, height);
+    const Point A ( 1-(d+1),  d+1, height);
+    const double AUy = d + 0.001;
+    const Point AU( 1 - AUy,  AUy, height);
+    const Point AA(   1 - d,    d, height);
+    const Point B (       1,    0, height);
+    const Point CC(   1 + d,   -d, height);
+    const Point C ( 1+(d+1), -d-1, height);
+    const Point D ( 1+(d+5), -d-5, height);
     
-    Point H1(   1 - d,    0,      0);  // touch point
-    Point H2(   1 + d,    0,      0);  // touch point
+    const Point H1(   1 - d,    0,      0);  // touch point
+    const Point H2(   1 + d,    0,      0);  // touch point
 
     Point result;
     
@@ -445,8 +445,8 @@ TEST(SphereAndSegmentTest, Arbitrary)
 
 TEST(SphereAndSegmentTest, BlackTest)
 {
-    Point A(1, 1, 1);
-    Point B(3, 1, 1);
+    const Point A(1, 1, 1);
+    const Point B(3, 1, 1);
     Point temp;
 
     EXPECT_THROW( sphere_and_segment_collision( A, A, 0.5, A, B, temp ), DegeneratedSegmentError );
@@ -455,14 +455,14 @@ TEST(SphereAndSegmentTest, BlackTest)
 
 TEST(SphereAndTriangleTest, TouchingPlane)
 {
-    double R = 0.32;
-    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
-    Point inner(2,2,0);
-    Point outer( 3, -1.5*R, 0);
-    Vector L( 0, 0, 2*R );
+    const double R = 0.32;
+    const Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    const Point inner(2,2,0);
+    const Point outer( 3, -1.5*R, 0);
+    const Vector L( 0, 0, 2*R );
     
-    Point upper1 = inner + L;
-    Point upper2 = outer + L;
+    const Point upper1 = inner + L;
+    const Point upper2 = outer + L;
 
     Point result;
     
@@ -474,12 +474,12 @@ TEST(SphereAndTriangleTest, TouchingPlane)
 
 TEST(SphereAndTriangleTest, TouchingNearestSide)
 {
-    double R = 0.32;
-    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
-    Point on_side(4,0,0);
-    Vector L( 0, 1, 0 );
-    Point A = on_side + (6 + R)*L;
-    Point B = on_side - 2*R*L;
+    const double R = 0.32;
+    const Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    const Point on_side(4,0,0);
+    const Vector L( 0, 1, 0 );
+    const Point A = on_side + (6 + R)*L;
+    const Point B = on_side - 2*R*L;
 
     Point result;
     
@@ -492,10 +492,10 @@ TEST(SphereAndTriangleTest, TouchingNearestSide)
 
 TEST(SphereAndTriangleTest, TouchingVertexNotSide)
 {
-    double R = 0.32;
-    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
-    Point A(7,-1,0);
-    Point B(3,+1,0);
+    const double R = 0.32;
+    const Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    const Point A(7,-1,0);
+    const Point B(3,+1,0);
 
     Point result;
     
@@ -505,10 +505,10 @@ TEST(SphereAndTriangleTest, TouchingVertexNotSide)
 
 TEST(SphereAndTriangleTest, TouchingNearestVertex)
 {
-    double R = 0.32;
-    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
-    Point A = triangle[1] + Point(0,0,R);
-    Point B = triangle[0] - Point(R,R,0);
+    const double R = 0.32;
+    const Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    const Point A = triangle[1] + Point(0,0,R);
+    const Point B = triangle[0] - Point(R,R,0);
 
     Point result;
     
@@ -520,13 +520,13 @@ TEST(SphereAndTriangleTest, TouchingNearestVertex)
 
 TEST(SphereAndTriangleTest, OutsideOnly)
 {
-    double R = 0.32;
-    Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
-    Point A(2, 2*R,0);
-    Point B(2,-3*R,0);
+    const double R = 0.32;
+    const Triangle triangle( Point(0,0,0), Point(2,4,0), Point(5,0,0) );
+    const Point A(2, 2*R,0);
+    const Point B(2,-3*R,0);
     
-    Point C(2, 4-2*R, 0);
-    Point D(2, 4+2*R, 0);
+    const Point C(2, 4-2*R, 0);
+    const Point D(2, 4+2*R, 0);
 
     Point result;
     
@@ -536,4 +536,3 @@ TEST(SphereAndTriangleTest, OutsideOnly)
     EXPECT_TRUE(  sphere_and_triangle_collision( D, C, R, triangle, result ) );
     EXPECT_FALSE( sphere_and_triangle_collision( C, D, R, triangle, result ) );
 }
-

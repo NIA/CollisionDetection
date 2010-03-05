@@ -8,9 +8,9 @@ using namespace Collisions;
 TEST(IsPointBetweenTest, OnSingleLine)
 {
     // TODO: define and test behavior if points are not on single line
-    Point p1(0, 0, 0);
-    Point p2(1, 1, 2);
-    Point p3(2, 2, 4);
+    const Point p1(0, 0, 0);
+    const Point p2(1, 1, 2);
+    const Point p3(2, 2, 4);
 
     EXPECT_TRUE(  is_point_between(p2, p1, p3) );
     EXPECT_FALSE( is_point_between(p1, p2, p3) );
@@ -23,12 +23,12 @@ TEST(IsPointBetweenTest, OnSingleLine)
 // Distance between point and line tests
 TEST(DistancePointAndLineTest, OnTheLine)
 {
-    Point P(0, 0, 0);
+    const Point P(0, 0, 0);
 
-    Point A(0, 0, 1.1);
-    Vector L(0, 0, 2.3); // z axis
+    const Point A(0, 0, 1.1);
+    const Vector L(0, 0, 2.3); // z axis
 
-    Point H(0, 0, 0); // nearest point
+    const Point H(0, 0, 0); // nearest point
 
     Point nearest;
 
@@ -39,12 +39,12 @@ TEST(DistancePointAndLineTest, OnTheLine)
 
 TEST(DistancePointAndLineTest, Trivial)
 {
-    Point P(2.5, 0, 0);
+    const Point P(2.5, 0, 0);
 
-    Point A(0, 0, 1.1);
-    Vector L(0, 0, 11); // z axis
+    const Point A(0, 0, 1.1);
+    const Vector L(0, 0, 11); // z axis
 
-    Point H(0, 0, 0); // nearest point
+    const Point H(0, 0, 0); // nearest point
 
     Point nearest;
 
@@ -54,12 +54,12 @@ TEST(DistancePointAndLineTest, Trivial)
 
 TEST(DistancePointAndLineTest, Arbitrary)
 {
-    Point P(0, 0, 0);
+    const Point P(0, 0, 0);
 
-    Point A(0, 0, 1);
-    Vector L(0.5, 0.5, -1); // on simplex
+    const Point A(0, 0, 1);
+    const Vector L(0.5, 0.5, -1); // on simplex
 
-    Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
+    const Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
 
     Point nearest;
 
@@ -69,8 +69,8 @@ TEST(DistancePointAndLineTest, Arbitrary)
 
 TEST(DistancePointAndLineTest, BlackTest)
 {
-    Point A(0, 0, 1);
-    Vector ZERO(0, 0, 0);
+    const Point A(0, 0, 1);
+    const Vector ZERO(0, 0, 0);
 
     Point nearest;
 
@@ -81,12 +81,12 @@ TEST(DistancePointAndLineTest, BlackTest)
 
 TEST(DistancePointAndSegmentTest, OnTheLine)
 {
-    Point P(0, 0, 0);
+    const Point P(0, 0, 0);
 
-    Point A(0, 0, 1.1);
-    Point C(0, 0, 0.1);
-    Point H(0, 0, 0); // nearest point
-    Point B(0, 0, -1.2);
+    const Point A(0, 0, 1.1);
+    const Point C(0, 0, 0.1);
+    const Point H(0, 0, 0);
+    const Point B(0, 0, -1.2);
 
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, A, B ) ) );
     EXPECT_TRUE( equal( 0.0, distance_between_point_and_segment( P, A, H ) ) );
@@ -97,12 +97,12 @@ TEST(DistancePointAndSegmentTest, OnTheLine)
 
 TEST(DistancePointAndSegmentTest, Trivial)
 {
-    Point P(2.5, 0, 0);
+    const Point P(2.5, 0, 0);
 
-    Point A(0, 0, 1.1);
-    Point C(0, 0, 0.1);
-    Point H(0, 0, 0); // nearest point
-    Point B(0, 0, -1.2);
+    const Point A(0, 0, 1.1);
+    const Point C(0, 0, 0.1);
+    const Point H(0, 0, 0); // nearest point
+    const Point B(0, 0, -1.2);
 
     EXPECT_DOUBLE_EQ( 2.5, distance_between_point_and_segment( P, A, B ) );
     EXPECT_DOUBLE_EQ( 2.5, distance_between_point_and_segment( P, A, H ) );
@@ -113,14 +113,14 @@ TEST(DistancePointAndSegmentTest, Trivial)
 
 TEST(DistancePointAndSegmentTest, Arbitrary)
 {
-    Point P(0, 0, 0);
+    const Point P(0, 0, 0);
 
-    Point A(0, 0, 1);
-    Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
-    Point C(0.5, 0.5, 0);
-    Point B(1, 1, -1);
+    const Point A(0, 0, 1);
+    const Point H(1.0/3, 1.0/3, 1.0/3); // nearest point
+    const Point C(0.5, 0.5, 0);
+    const Point B(1, 1, -1);
 
-    double dst = 1.0/sqrt(3.0);
+    const double dst = 1.0/sqrt(3.0);
 
     EXPECT_DOUBLE_EQ( dst, distance_between_point_and_segment( P, A, B ) );
     EXPECT_DOUBLE_EQ( dst, distance_between_point_and_segment( P, A, H ) );
@@ -131,7 +131,7 @@ TEST(DistancePointAndSegmentTest, Arbitrary)
 
 TEST(DistancePointAndSegmentTest, BlackTest)
 {
-    Point A(0, 0, 1);
+    const Point A(0, 0, 1);
 
     EXPECT_THROW( distance_between_point_and_segment( A, A, A ), DegeneratedSegmentError );
 }
@@ -140,70 +140,70 @@ TEST(DistancePointAndSegmentTest, BlackTest)
 
 TEST(DistanceTwoLinesTest, Crossing)
 {
-    Point A1(0.2, 0.2, 0.2);
-    Vector L1(0.99, 0.99, 0.99); // simplex normal
+    const Point A1(0.2, 0.2, 0.2);
+    const Vector L1(0.99, 0.99, 0.99); // simplex normal
 
-    Point A2(0, 0, 1);
-    Vector L2(0.5, 0.5, -1); // on simplex
+    const Point A2(0, 0, 1);
+    const Vector L2(0.5, 0.5, -1); // on simplex
 
     EXPECT_TRUE( equal( 0.0, distance_between_two_lines( A1, L1, A2, L2 ) ) );
 }
 
 TEST(DistanceTwoLinesTest, PerpendicularTrivial)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(0.99, 0, 0); // x axis
+    const Point A1(0.2, 0, 0);
+    const Vector L1(0.99, 0, 0); // x axis
 
-    Point A2(0, 2.3, 2.3);
-    Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
+    const Point A2(0, 2.3, 2.3);
+    const Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
 
     EXPECT_DOUBLE_EQ( 2.3, distance_between_two_lines( A1, L1, A2, L2 ) );
 }
 
 TEST(DistanceTwoLinesTest, NonParallelArbitrary)
 {
-    Point A1(0.5, 0.5, 0);
-    Vector L1(-0.5, 0, 0.5); // on little simplex (1x1x1)
+    const Point A1(0.5, 0.5, 0);
+    const Vector L1(-0.5, 0, 0.5); // on little simplex (1x1x1)
 
-    Point A2(5.0/3, 1.0/3, 0);
-    Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
+    const Point A2(5.0/3, 1.0/3, 0);
+    const Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
 
     EXPECT_DOUBLE_EQ( 1.0/sqrt(3.0),  distance_between_two_lines( A1, L1, A2, L2 ) );
 }
 
 TEST(DistanceTwoLinesTest, ParallelTrivial)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(0.99, 0, 0); // x axis
+    const Point A1(0.2, 0, 0);
+    const Vector L1(0.99, 0, 0); // x axis
 
-    Point A2(2.3, 0, 2.3);
-    Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
+    const Point A2(2.3, 0, 2.3);
+    const Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
 
     EXPECT_DOUBLE_EQ( 2.3, distance_between_two_lines( A1, L1, A2, L2 ) );
 }
 
 TEST(DistanceTwoLinesTest, ParallelArbitrary)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(1, 1, 1);
+    const Point A1(0.2, 0, 0);
+    const Vector L1(1, 1, 1);
 
-    Vector N(1, 1, -2); // perpendicular to L1
+    const Vector N(1, 1, -2); // perpendicular to L1
 
-    Vector L2 = L1;
-    Point A2 = A1 + 5*N.normalized() + 8*L2;
+    const Vector L2 = L1;
+    const Point A2 = A1 + 5*N.normalized() + 8*L2;
 
     EXPECT_DOUBLE_EQ( 5, distance_between_two_lines( A1, L1, A2, L2 ) );
 }
 
 TEST(DistanceTwoLinesTest, BlackTest)
 {
-    Point A1(0, 0, 0);
-    Vector L1(1, 1, 1);
+    const Point A1(0, 0, 0);
+    const Vector L1(1, 1, 1);
 
-    Point A2(0, 0, 1);
-    Vector L2(0.5, 0.5, -1);
+    const Point A2(0, 0, 1);
+    const Vector L2(0.5, 0.5, -1);
 
-    Vector ZERO(0, 0, 0);
+    const Vector ZERO(0, 0, 0);
 
     EXPECT_THROW( distance_between_two_lines( A1, ZERO, A2, L2 ), InvalidLineVectorError );
     EXPECT_THROW( distance_between_two_lines( A1, L1, A2, ZERO ), InvalidLineVectorError );
@@ -214,11 +214,11 @@ TEST(DistanceTwoLinesTest, BlackTest)
 
 TEST(NearestPointsOnLinesTest, Crossing)
 {
-    Point A1(0.2, 0.2, 0.2);
-    Vector L1(0.99, 0.99, 0.99); // simplex normal
+    const Point A1(0.2, 0.2, 0.2);
+    const Vector L1(0.99, 0.99, 0.99); // simplex normal
 
-    Point A2(0, 0, 1);
-    Vector L2(0.5, 0.5, -1); // on simplex
+    const Point A2(0, 0, 1);
+    const Vector L2(0.5, 0.5, -1); // on simplex
 
     Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
@@ -231,11 +231,11 @@ TEST(NearestPointsOnLinesTest, Crossing)
 
 TEST(NearestPointsOnLinesTest, PerpendicularTrivial)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(0.99, 0, 0); // x axis
+    const Point A1(0.2, 0, 0);
+    const Vector L1(0.99, 0, 0); // x axis
 
-    Point A2(0, 2.3, 2.3);
-    Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
+    const Point A2(0, 2.3, 2.3);
+    const Vector L2(0, -5, 0); // y axis (shifted 2.3 up)
 
     Point result1, result2;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
@@ -246,11 +246,11 @@ TEST(NearestPointsOnLinesTest, PerpendicularTrivial)
 
 TEST(NearestPointsOnLinesTest, NonParallelArbitrary)
 {
-    Point A1(1.0/3, 1.0/3, 1.0/3);
-    Vector L1(-0.5, 0, 0.5); // on little simplex (1x1x1)
+    const Point A1(1.0/3, 1.0/3, 1.0/3);
+    const Vector L1(-0.5, 0, 0.5); // on little simplex (1x1x1)
 
-    Point A2(2.0/3, 2.0/3, 2.0/3);
-    Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
+    const Point A2(2.0/3, 2.0/3, 2.0/3);
+    const Vector L2(1.0/6, 1.0/6, -1.0/3); // on big simplex (2x2x2)
 
     Point result1, result2;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
@@ -261,11 +261,11 @@ TEST(NearestPointsOnLinesTest, NonParallelArbitrary)
 
 TEST(NearestPointsOnLinesTest, ParallelTrivial)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(0.99, 0, 0); // x axis
+    const Point A1(0.2, 0, 0);
+    const Vector L1(0.99, 0, 0); // x axis
 
-    Point A2(2.3, 0, 2.3);
-    Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
+    const Point A2(2.3, 0, 2.3);
+    const Vector L2(-5, 0, 0); // x axis (shifted 2.3 up)
 
     Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
@@ -277,14 +277,14 @@ TEST(NearestPointsOnLinesTest, ParallelTrivial)
 
 TEST(NearestPointsOnLinesTest, ParallelArbitrary)
 {
-    Point A1(0.2, 0, 0);
-    Vector L1(1, 1, 1);
+    const Point A1(0.2, 0, 0);
+    const Vector L1(1, 1, 1);
 
-    Vector N(1, 1, -2); // perpendicular to L1
+    const Vector N(1, 1, -2); // perpendicular to L1
 
-    Vector L2 = L1;
-    Point A2N = A1 + 5*N.normalized();
-    Point A2 = A2N + 8*L2;
+    const Vector L2 = L1;
+    const Point A2N = A1 + 5*N.normalized();
+    const Point A2 = A2N + 8*L2;
 
     Point result1, result2, temp;
     nearest_points_on_lines(A1, L1, A2, L2, result1, result2);
@@ -296,13 +296,13 @@ TEST(NearestPointsOnLinesTest, ParallelArbitrary)
 
 TEST(NearestPointsOnLinesTest, BlackTest)
 {
-    Point A1(0, 0, 0);
-    Vector L1(1, 1, 1);
+    const Point A1(0, 0, 0);
+    const Vector L1(1, 1, 1);
 
-    Point A2(0, 0, 1);
-    Vector L2(0.5, 0.5, -1);
+    const Point A2(0, 0, 1);
+    const Vector L2(0.5, 0.5, -1);
 
-    Vector ZERO(0, 0, 0);
+    const Vector ZERO(0, 0, 0);
 
     Point temp1, temp2;
 
@@ -415,10 +415,10 @@ TEST(PointInsideTriangleTest, BorderSimplex)
 
 TEST(PointInsideTriangleTest, BlackTest)
 {
-    Point A(0,0,0);
-    Point B(3,0,0);
-    Point C(2,3,0);
-    Point AB(2,0,0);
+    const Point A(0,0,0);
+    const Point B(3,0,0);
+    const Point C(2,3,0);
+    const Point AB(2,0,0);
 
     EXPECT_THROW( is_point_inside_triangle( C, Triangle(A, AB, B) ), DegeneratedTriangleError );
     EXPECT_THROW( is_point_inside_triangle( C, Triangle(A, A, B) ), DegeneratedTriangleError );
@@ -429,14 +429,14 @@ TEST(PointInsideTriangleTest, BlackTest)
 
 TEST(PerpendicularBaseTest, Sloping)
 {
-    double sloping_coef = 3.4; // L2 is horisontal, while L1 is sloped N:1, where N is sloping_coef
-    Point A(1, 1, 1);
-    Vector L1(-1, -sloping_coef, 0);
-    Vector L2( 1,  0, 0);
+    const double sloping_coef = 3.4; // L2 is horisontal, while L1 is sloped N:1, where N is sloping_coef
+    const Point A(1, 1, 1);
+    const Vector L1(-1, -sloping_coef, 0);
+    const Vector L2( 1,  0, 0);
     const double length = 2.3;
 
-    Point first = A + length/sloping_coef*L2;
-    Point second = A - length/sloping_coef*L2;
+    const Point first = A + length/sloping_coef*L2;
+    const Point second = A - length/sloping_coef*L2;
 
     EXPECT_EQ( first, perpendicular_base( L1, L2, A, length ) );
     EXPECT_EQ( first, perpendicular_base( L1, -L2, A, length ) );
@@ -446,9 +446,9 @@ TEST(PerpendicularBaseTest, Sloping)
 
 TEST(PerpendicularBaseTest, Perpendicular)
 {
-    Point A(1, 1, 1);
-    Vector L1( 0, -1, 0);
-    Vector L2( 1,  0, 0);
+    const Point A(1, 1, 1);
+    const Vector L1( 0, -1, 0);
+    const Vector L2( 1,  0, 0);
     const double length = 2.3;
 
     EXPECT_EQ( A, perpendicular_base( L1, L2, A, length ) );
@@ -456,8 +456,8 @@ TEST(PerpendicularBaseTest, Perpendicular)
 
 TEST(PerpendicularBaseTest, Parallel)
 {
-    Point A(1, 1, 1);
-    Vector L1( 0, -1, 0);
+    const Point A(1, 1, 1);
+    const Vector L1( 0, -1, 0);
     const double length = 2.3;
 
     EXPECT_THROW( perpendicular_base( L1, L1, A, length ), ParallelLinesError );
@@ -466,11 +466,11 @@ TEST(PerpendicularBaseTest, Parallel)
 
 TEST(PerpendicularBaseTest, BlackTest)
 {
-    Point A(0, 0, 0);
-    Vector L1(1, 1, 1);
-    Vector L2(0.5, 0.5, -1);
+    const Point A(0, 0, 0);
+    const Vector L1(1, 1, 1);
+    const Vector L2(0.5, 0.5, -1);
 
-    Vector ZERO(0, 0, 0);
+    const Vector ZERO(0, 0, 0);
 
     EXPECT_THROW( perpendicular_base( L1, ZERO, A, 1.5 ), InvalidLineVectorError );
     EXPECT_THROW( perpendicular_base( ZERO, L2, A, 1.5 ), InvalidLineVectorError );

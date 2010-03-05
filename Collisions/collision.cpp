@@ -9,7 +9,7 @@ namespace Collisions
     // Returns true, if first point is between second and third
     bool is_point_between(const Point &inner_point, const Point &outer_point1, const Point &outer_point2)
     {
-        double squared_length = (outer_point2 - outer_point1).sqared_norm();
+        const double squared_length = (outer_point2 - outer_point1).sqared_norm();
         return ( less_or_equal( (inner_point - outer_point1).sqared_norm(), squared_length ) &&
                  less_or_equal( (outer_point2 - inner_point).sqared_norm(), squared_length ) );
     }
@@ -19,8 +19,8 @@ namespace Collisions
     {
         check_nonzero_vector( line_vector, InvalidLineVectorError() );
 
-        double t = line_vector*( point - line_point) / line_vector.sqared_norm();
-        Point perpendicular_base = line_point + t*line_vector;
+        const double t = line_vector*( point - line_point) / line_vector.sqared_norm();
+        const Point perpendicular_base = line_point + t*line_vector;
         nearest_point = perpendicular_base;
         return distance(point, perpendicular_base);
     }
@@ -41,7 +41,7 @@ namespace Collisions
     Point _nearest_on_parallels(const Point &line_point1, const Point &line_point2, const Vector &line_vector)
     // returns the point on first line, nearest to line_point2
     {
-        Vector L1 = line_vector.normalized();
+        const Vector L1 = line_vector.normalized();
         return line_point1 + ((line_point2 - line_point1)*L1)*L1; // A1 plus proection of A2-A1 onto L1
     }
 
@@ -50,7 +50,7 @@ namespace Collisions
     {
         check_nonzero_vector( line_vector1, InvalidLineVectorError() );
         check_nonzero_vector( line_vector2, InvalidLineVectorError() );
-        Vector h = cross_product( line_vector1, line_vector2 ); // perpendicular
+        const Vector h = cross_product( line_vector1, line_vector2 ).normalized(); // perpendicular
         double dst;
         if( h.is_zero() )
         {
@@ -61,7 +61,6 @@ namespace Collisions
         else
         {
             // lines are not parallel
-            h.normalize();
             dst = fabs( (line_point2 - line_point1)*h ); // legth of projection of 'vector from one line to another' to the perpendicular
         }
         return dst;
@@ -80,7 +79,7 @@ namespace Collisions
         const Point &L2 = line_vector2;
         double t1, t2;
 
-        double cross_product_sqared_norm = cross_product(L1, L2).sqared_norm();
+        const double cross_product_sqared_norm = cross_product(L1, L2).sqared_norm();
         
         if( equal( 0.0, cross_product_sqared_norm ) )
         {
@@ -92,12 +91,16 @@ namespace Collisions
         {
             // lines are not parallel
 
-            // MATH_CHEAT: linear system solved by wxMaxima
-            t1 = (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x)
-               / cross_product_sqared_norm;
-            t2 = ((((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x)
-               / cross_product_sqared_norm;
-            // END MATH_CHEAT
+            // MATH CHEAT: linear system solved by wxMaxima (see nearest_points.wxm)
+            t1 = ( ((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L2.z*L2.z + (((A1.y-A2.y)*L1.z + (A1.z-A2.z)*L1.y)*L2.y
+                 + ((A1.x-A2.x)*L1.z + (A1.z-A2.z)*L1.x)*L2.x)*L2.z + ((A2.z-A1.z)*L1.z + (A2.x-A1.x)*L1.x)*L2.y*L2.y
+                 + ((A1.x-A2.x)*L1.y + (A1.y-A2.y)*L1.x)*L2.x*L2.y + ((A2.z-A1.z)*L1.z + (A2.y-A1.y)*L1.y)*L2.x*L2.x
+                 ) / cross_product_sqared_norm;
+            t2 = ( (((A2.y-A1.y)*L1.y + (A2.x-A1.x)*L1.x)*L1.z + (A1.z-A2.z)*L1.y*L1.y + (A1.z-A2.z)*L1.x*L1.x)*L2.z
+                 + ((A1.y-A2.y)*L1.z*L1.z + (A2.z-A1.z)*L1.y*L1.z + (A2.x-A1.x)*L1.x*L1.y + (A1.y-A2.y)*L1.x*L1.x)*L2.y
+                 + ((A1.x-A2.x)*L1.z*L1.z + (A2.z-A1.z)*L1.x*L1.z + (A1.x-A2.x)*L1.y*L1.y + (A2.y-A1.y)*L1.x*L1.y)*L2.x
+                 ) / cross_product_sqared_norm;
+            // END MATH CHEAT
             result1 = A1 + t1*L1;
             result2 = A2 + t2*L2;
         }
@@ -107,16 +110,16 @@ namespace Collisions
     {
         // TODO: check whether the point is in the same plane as triangle.
         // By now this function returns true if _proection_ of point is inside triangle
-        Vector u = triangle[1] - triangle[0];
-        Vector v = triangle[2] - triangle[0];
-        Vector r = point - triangle[0];
+        const Vector u = triangle[1] - triangle[0];
+        const Vector v = triangle[2] - triangle[0];
+        const Vector r = point - triangle[0];
         
         // find components of r along u and v
-        double determinant = (u*u)*(v*v) - (u*v)*(u*v);
+        const double determinant = (u*u)*(v*v) - (u*v)*(u*v);
         check( determinant != 0, DegeneratedTriangleError() );
 
-        double ru = ( (r*u)*(v*v) - (u*v)*(r*v) ) / determinant;
-        double rv = ( (u*u)*(r*v) - (r*u)*(u*v) ) / determinant;
+        const double ru = ( (r*u)*(v*v) - (u*v)*(r*v) ) / determinant;
+        const double rv = ( (u*u)*(r*v) - (r*u)*(u*v) ) / determinant;
 
         return greater_or_equal(ru, 0) && greater_or_equal(rv, 0) && less_or_equal(ru + rv, 1);
     }
@@ -128,10 +131,10 @@ namespace Collisions
         check_nonzero_vector( line_vector1, InvalidLineVectorError() );
         check_nonzero_vector( line_vector2, InvalidLineVectorError() );
 
-        Vector L1 = line_vector1.normalized();
-        Vector L2 = line_vector2.normalized();
-        double cosine = L1*L2;
-        double angle = acos(cosine);
+        const Vector L1 = line_vector1.normalized();
+        const Vector L2 = line_vector2.normalized();
+        const double cosine = L1*L2;
+        const double angle = acos(cosine);
         if( equal(0, cosine) )
         {
             // L1 is ortogonal to L2
@@ -144,7 +147,7 @@ namespace Collisions
         }
         else
         {
-            double distance = perpendicular_length/tan(angle);
+            const double distance = perpendicular_length/tan(angle);
             return crosspoint - distance*L2;
         }
     }
@@ -166,14 +169,14 @@ namespace Collisions
         check_nonzero_vector( line_vector, InvalidLineVectorError() );
         check_nonzero_vector( plane_normal, InvalidNormalError() );
 
-        double denominator = line_vector * plane_normal;
+        const double denominator = line_vector * plane_normal;
         if( equal(denominator, 0) )
         {
             return false;
         }
         else
         {
-            double t = (plane_point - line_point)*plane_normal/denominator;
+            const double t = (plane_point - line_point)*plane_normal/denominator;
             collision_point = line_point + t*line_vector;
             return true;
         }
@@ -207,10 +210,10 @@ namespace Collisions
         check_segment( segment_start, segment_end );
         check_nonzero_vector( plane_normal, InvalidNormalError() );
 
-        Vector line_vector = segment_end - segment_start;
+        const Vector line_vector = segment_end - segment_start;
         Point point;
-        Vector shift = ( line_vector * plane_normal > 0 ) ? sphere_radius*plane_normal : -sphere_radius*plane_normal; // lower or upper collision
-        bool result = segment_and_plane_collision(segment_start + shift,
+        const Vector shift = sign(line_vector*plane_normal)*sphere_radius*plane_normal; // lower or upper collision
+        const bool result = segment_and_plane_collision(segment_start + shift,
                                                   segment_end   + shift,
                                                   plane_point, plane_normal, point);
         if( result )
@@ -235,13 +238,13 @@ namespace Collisions
         check_segment( segment_start, segment_end );
         check_segment( sphere_segment_start, sphere_segment_end );
 
-        Vector L_sphere = (sphere_segment_end - sphere_segment_start).normalized();
-        Vector L_segment = (segment_end - segment_start).normalized();
+        const Vector L_sphere = (sphere_segment_end - sphere_segment_start).normalized();
+        const Vector L_segment = (segment_end - segment_start).normalized();
         
         Point nearest_on_sphere_way, nearest_on_segment;
         nearest_points_on_lines( sphere_segment_start, L_sphere, segment_start, L_segment, nearest_on_sphere_way, nearest_on_segment);
         
-        double dist = distance( nearest_on_sphere_way, nearest_on_segment );
+        const double dist = distance( nearest_on_sphere_way, nearest_on_segment );
         
         if( L_sphere.is_collinear_to( L_segment ) )
         {
@@ -252,7 +255,7 @@ namespace Collisions
         if( greater_or_equal( sphere_radius, dist ) )
         {
             // if distance between lines is less than radius
-            double perpendicular_length = sqrt( sphere_radius*sphere_radius - dist*dist );
+            const double perpendicular_length = sqrt( sphere_radius*sphere_radius - dist*dist );
             Point result = perpendicular_base( L_sphere, L_segment, nearest_on_segment, perpendicular_length );
 
             // now check that this collision point is inside the segment
@@ -268,7 +271,7 @@ namespace Collisions
             }
             else
             {
-                Vector L_segment_other = (result - nearest_on_segment).normalized();
+                const Vector L_segment_other = (result - nearest_on_segment).normalized();
                 assert( L_segment_other == L_segment || L_segment_other == -L_segment );
                 // calculating normal, aimed from L_segment to L_sphere as double cross-product. L_segment_other is used instead of L_segment in order to avoid sign mess
                 normal = cross_product( cross_product( L_sphere, L_segment_other ), L_segment_other ).normalized();
@@ -297,7 +300,7 @@ namespace Collisions
                                        /*out*/ Point &collision_point)
     {
         check_segment( segment_start, segment_end );
-        Vector L_sphere = segment_end - segment_start;
+        const Vector L_sphere = segment_end - segment_start;
         
         // 1) is it touching a plane of triangle?
         Point result_point;
